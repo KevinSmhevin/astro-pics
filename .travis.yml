@@ -1,2 +1,10 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: e+sQy8mki8HMTpfOgteakHOgwI8IsoroYpqd/uO9Bm2gmrYOitw8hIaHH0jUTGQSdlG9G7GND1ra9A5nGWtXpkoXqiylpDGWh5VygUieS16Yg87Wv9Gd//6UCzMKQ87Cwsl1gSyh6akfioctn+jxzdRvrmDZKPtrXY5xcZs7s5bVwx3f28Afot7xvZ6iHs/YCKLiXRXFRe7WV/akw3vIaD6HKJuc0kL7dd/Gm76tdSZjxi5AfWdEQ+c0+SSQcYP2lLvxvuSKlRzw8HsjQFmJv3RpL77Gkj/4LuaC+oUoySS1ePJlLimpPh9go5ePQvB4GKLCPMWaNdBfrn84jfAFXKdZxAHiexdVxZJy5Po0kSlaRVE/nVARFVQqsmHdA89CcI6ymns+st2HrL0QxwGhRkPNdINzwDTJpkEeF3r92DVQFRbaxP0J5mz28hXunWIbL+ImmXYapTEwP5hZi7tKpie5P5fTNgwPkOrcwEcWSIxnczstvL42t9S123s7hoikRMsqX+xT2CQ4zya6IaUiE/TyzASmLZX/EWQpCW9RDLMiaW+2jC/MWMSz7LOUaglbK25VcwA8tZck4X4yiNP/bxaVBldgxmYnWIBOOUtxzI5i3X/w3sXqQVIKLh94ONRjthVNzS1pBnycwi1ndq0EExNRRVWlJpAk9f40Vg6GCvk=
+  app: pacific-fjord-73675
+
+  on:
+    repo: KevinSmhevin/astro-pics

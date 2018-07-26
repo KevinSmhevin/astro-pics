@@ -10,7 +10,7 @@ const photoAppRouter = require ('./photoAppRouter')
 app.use('/photos', photoAppRouter)
 
 app.listen((process.env.PORT || 8080), () => {
-console.log(`Your app is listening`)
+    console.log(`Your app is listening`)
 });
 
-module.exports = app; 
+modules.exports = app; 
