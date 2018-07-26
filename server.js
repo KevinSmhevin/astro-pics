@@ -1,16 +1,16 @@
 const express = require('express');
-const morgan = require('morgan')
+
 const app = express();
 
-//static files
+// static files
 app.use(express.static('public'));
 
-const photoAppRouter = require ('./photoAppRouter')
+const photoAppRouter = require('./photoAppRouter');
 
-app.use('/photos', photoAppRouter)
+app.use('/photos', photoAppRouter);
 
 app.listen((process.env.PORT || 8080), () => {
-    console.log(`Your app is listening`)
+  console.log('Your app is listening');
 });
 
-module.exports = app; 
+module.exports = app;

@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "pretest": "npm run lint",
     "test": "mocha --exit",
-    "start": "node server.js"
+    "start": "node server.js",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +21,7 @@
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-mocha": "^5.1.0",
     "faker": "^4.1.0",
     "mocha": "^5.2.0"
   }
