@@ -3,26 +3,90 @@
     <head>
         <meta name="viewport" content="width=device-width">
         <title>Astro Pic Images</title>
-        <link href="main.css" rel="stylesheet" type="text/css" />
+        <!-- Import Google Icon Font-->
+      <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+      <!--Import materialize.css-->
+      <!-- <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> -->
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+        
     </head>
     <body>
-        <header>
-            <h1>Astro Pics</h1>
-        </header>
-        <nav>
-            <a>back to home page</a>
-        </nav>
+        <div class="top-container">
+            <header>
+                <h1><img src="/pics/Astro-Pics-Logo.jpg" class="logo"></h1>
+            </header>
+            <nav>
+                <button type="button" class="ph-btn-grey ph-button nav-button">Profile Information</button> 
+                <button type="button" class="ph-button ph-btn-blue nav-button">Post</button>
+            </nav>
+        </div>
         <div class="main-container">
-            <div class="top-container">
-                <div class="top-box-1"><img src ="pics/space.jpg"></div>
-                <div class="top-box-2"><img src ="pics/space.jpg"></div>
-                <div class="top-box-3"><img src ="pics/space.jpg"></div>
+            <div class="top-row">
+                <div class="top-box">
+                     <img class="gal-pic" src ="pics/space.jpg">
+                     <ul class="img-content">
+                        <li><p class="likes">5 likes</p></li>
+                        <li><h4 class="img-title">Star-trails</h4></li>
+                        <li><h5 class="author">By Kevin Paras</h5></li>
+                        </li><button class="like-button" type="button">like</button></li>
+                    </ul>
+                </div>
+                <div class="top-box">
+                        <img class="gal-pic" src ="pics/space.jpg">
+                        <ul class="img-content">
+                           <li><p class="likes">5 likes</p></li>
+                           <li><h4 class="img-title">Star-trails</h4></li>
+                           <li><h5 class="author">By Kevin Paras</h5></li>
+                           </li><button class="like-button" type="button">like</button></li>
+                       </ul>
+                </div>
+                <div class="top-box">
+                        <img class="gal-pic" src ="pics/space.jpg">
+                        <ul class="img-content">
+                           <li><p class="likes">5 likes</p></li>
+                           <li><h4 class="img-title">Star-trails</h4></li>
+                           <li><h5 class="author">By Kevin Paras</h5></li>
+                           </li><button class="like-button" type="button">like</button></li>
+                       </ul>
+                </div>
             </div>
-            <div class="bot-container">
-                <div class="bot-box-1"><img src ="pics/space.jpg"></div>
-                <div class="bot-box-2"><img src ="pics/space.jpg"></div>
-                <div class="bot-box-3"><img src ="pics/space.jpg"></div>
+            <div class="bot-row">
+                <div class="bot-box">
+                        <img class="gal-pic" src ="pics/space.jpg">
+                        <ul class="img-content">
+                           <li><p class="likes">5 likes</p></li>
+                           <li><h4 class="img-title">Star-trails</h4></li>
+                           <li><h5 class="author">By Kevin Paras</h5></li>
+                           </li><button class="like-button" type="button">like</button></li>
+                       </ul>
+                </div>
+                <div class="bot-box">
+                        <img class="gal-pic" src ="pics/space.jpg">
+                        <ul class="img-content">
+                           <li><p class="likes">5 likes</p></li>
+                           <li><h4 class="img-title">Star-trails</h4></li>
+                           <li><h5 class="author">By Kevin Paras</h5></li>
+                           </li><button class="like-button" type="button">like</button></li>
+                       </ul>
+                </div>
+                <div class="bot-box">
+                        <img class="gal-pic" src ="pics/space.jpg">
+                        <ul class="img-content">
+                           <li><p class="likes">5 likes</p></li>
+                           <li><h4 class="img-title">Star-trails</h4></li>
+                           <li><h5 class="author">By Kevin Paras</h5></li>
+                           </li><button class="like-button" type="button">like</button></li>
+                       </ul>
+                </div>
             </div>
         </div>
     </body>
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="js/materialize.min.js"></script> -->
 </html>

@@ -1,0 +1,162 @@
+* {
+    box-sizing: border-box;
+    -webkit-padding-start: 0px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-before: 0px;
+    -webkit-margin-after: 0px;
+}
+
+body {
+    color: white;
+}
+
+h1 {
+    text-align: center;
+}
+
+.logo {
+    width: 25%;
+}
+
+nav {
+    margin: auto;
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.main-container {
+    border-radius: 5px;
+    width: 75%;
+    margin: auto;
+    background-color: white;
+}
+.top-row, .bot-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.gal-pic {
+    width: 95%;
+    display: block;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    -webkit-padding-start: 0px;
+    list-style-type: none;
+}
+
+.top-box, .bot-box {
+    border-radius: 5px;
+    margin: 5px;
+    padding: 0.25%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: black;
+
+}
+
+@media only screen and (max-width: 850px), screen and (max-height: 700px) {
+
+    .logo {
+        width: 100%;
+    }
+    .main-container {
+        width: 80%;
+    }
+    .top-row, .bot-row {
+        flex-direction: column; 
+        height: 100%;
+    }
+    
+    .top-box, .bot-box {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+/*Main button class
+==========================*/
+.ph-button {
+	
+    border-style: solid;
+    border-width: 0px 0px 3px;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    color: #FFFFFF;	   
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    font-style: normal;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all 200ms ease-in-out 0s;
+    white-space: nowrap;	
+    font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
+    font-weight: 700;	
+    padding: 20px;
+    /* font-size: 18px; */
+	
+}
+/*Green
+==========================*/
+.ph-btn-green {
+
+    border-color: #3AC162;
+	background-color: #5FCF80;
+
+}
+.ph-btn-green:hover, .ph-btn-green:focus, .ph-btn-green:active {
+    background-color: #4BC970;
+    border-color: #3AC162;    
+}
+
+/*Blue
+==========================*/
+.ph-btn-blue {
+
+    border-color: #326E99;
+    background-color: #3F8ABF;
+}
+
+.ph-btn-blue:hover, .ph-btn-blue:focus, .ph-btn-blue:active {
+    background-color: #397CAC;
+    border-color: #326E99;   
+}
+
+/*Grey
+==========================*/
+.ph-btn-grey {
+
+     background-color: #C6CCD2;
+     border-color: #AAB3BB;
+}
+.ph-btn-grey:hover, .ph-btn-grey:focus, .ph-btn-grey:active {
+    background-color: #B8BFC7;
+    border-color: #AAB3BB; 
+}
+
+/*Red
+==========================*/
+.ph-btn-red {
+
+    background-color: #ED5A5A !important;
+    border-color: #EA4343 !important;
+
+}
+.ph-btn-red:hover, .ph-btn-red:focus, .ph-btn-red:active {
+    background: none repeat scroll 0 0 #EB4848 !important;
+    border-color: #E83131 !important;    
+}
+
