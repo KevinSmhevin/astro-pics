@@ -21,22 +21,22 @@ app.use('/photos', photoAppRouter);
 
 let server;
 
-function runServer(databaseUrl, port = PORT) {
-  return new Promise((resolve, reject) => {
-    mongoose.connect(databaseUrl, (err) => {
-      if (err) {
-        return reject(err);
-      }
-      server = app.listen(port, () => {
-        console.log(`Your app is listening on ${port}`);
-      })
-        .on('error', () => {
-          mongoose.disconnect();
-          reject(err);
-        });
-    });
-  });
-}
+// function runServer(databaseUrl, port = PORT) {
+//   return new Promise((resolve, reject) => {
+//     mongoose.connect(databaseUrl, (err) => {
+//       if (err) {
+//         return reject(err);
+//       }
+//       server = app.listen(port, () => {
+//         console.log(`Your app is listening on ${port}`);
+//       })
+//         .on('error', () => {
+//           mongoose.disconnect();
+//           reject(err);
+//         });
+//     });
+//   });
+// }
 
 // function closeServer() {
 //   return mongoose.disconnect().then()) => {
@@ -52,8 +52,10 @@ function runServer(databaseUrl, port = PORT) {
 //   });
 // }
 
-if (require.main === module) {
-  runServer(DATABASE_URL).catch(err => console.error(err));
-}
+// if (require.main === module) {
+//   runServer(DATABASE_URL).catch(err => console.error(err));
+// }
 
-module.exports = { app, runServer };
+app.listen(process.env.PORT || 8080);
+
+module.exports = { app };
