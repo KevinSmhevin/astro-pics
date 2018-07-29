@@ -5,7 +5,6 @@ const morgan = require('morgan');
 mongoose.Promise = global.Promise;
 // starts the dotenv
 require('dotenv').config();
-require('./config');
 
 const app = express();
 
@@ -15,16 +14,46 @@ app.use(express.json());
 // static files
 app.use(express.static('public'));
 
-// const { DATABASE_URL, PORT } = require('./config');
+const { DATABASE_URL, PORT } = require('./config');
 const photoAppRouter = require('./photoAppRouter');
 
 app.use('/photos', photoAppRouter);
 
-// let server;
+let server;
 
+function runServer(databaseUrl, port = PORT) {
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, (err) => {
+      if (err) {
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Your app is listening on ${port}`);
+      })
+        .on('error', () => {
+          mongoose.disconnect();
+          reject(err);
+        });
+    });
+  });
+}
 
-app.listen((process.env.PORT || 8080), () => {
-  console.log('Your app is listening');
-});
+// function closeServer() {
+//   return mongoose.disconnect().then()) => {
+//     return new Promise((resolve, reject) => {
+//       console.log('Closing Server');
+//       server.close(err => {
+//         if (err) {
+//           return reject(err)
+//         }
+//         resolve();
+//       });
+//     });
+//   });
+// }
 
-module.exports = app;
+if (require.main === module) {
+  runServer(DATABASE_URL).catch(err => console.error(err));
+}
+
+module.exports = { app, runServer };

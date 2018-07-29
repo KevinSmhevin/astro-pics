@@ -34,9 +34,11 @@ nav {
     margin: auto;
     background-color: white;
 }
-.top-row, .bot-row {
+.row {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
     width: 100%;
 }
 
@@ -55,8 +57,13 @@ ul {
     -webkit-padding-start: 0px;
     list-style-type: none;
 }
-
-.top-box, .bot-box {
+  
+li {
+    margin: auto;
+}
+  
+.box {
+    width: 30%;
     border-radius: 5px;
     margin: 5px;
     padding: 0.25%;
@@ -66,7 +73,7 @@ ul {
 
 }
 
-@media only screen and (max-width: 850px), screen and (max-height: 700px) {
+@media only screen and (max-width: 800px), screen and (max-height: 680px) {
 
     .logo {
         width: 100%;
@@ -74,12 +81,12 @@ ul {
     .main-container {
         width: 80%;
     }
-    .top-row, .bot-row {
+    .row {
         flex-direction: column; 
         height: 100%;
     }
     
-    .top-box, .bot-box {
+    .box {
         width: 100%;
         margin-top: 10px;
         margin-bottom: 10px;
@@ -106,9 +113,16 @@ ul {
     white-space: nowrap;	
     font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
     font-weight: 700;	
+}
+
+.nav-button {
     padding: 20px;
-    /* font-size: 18px; */
-	
+    font-size: 18px; 
+}
+
+.like-button {
+    padding: 10px;
+    font-size: 10px;
 }
 /*Green
 ==========================*/
@@ -161,3 +175,91 @@ ul {
     border-color: #E83131 !important;    
 }
 
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+    -webkit-transition: .3s ease-out;
+    transition: .3s ease-out;
+  }
+  
+  .waves-effect .waves-ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.2);
+    -webkit-transition: all 0.7s ease-out;
+    transition: all 0.7s ease-out;
+    -webkit-transition-property: opacity, -webkit-transform;
+    transition-property: opacity, -webkit-transform;
+    transition-property: transform, opacity;
+    transition-property: transform, opacity, -webkit-transform;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    pointer-events: none;
+  }
+  
+  .waves-effect.waves-light .waves-ripple {
+    background-color: rgba(255, 255, 255, 0.45);
+  }
+  
+  .waves-effect.waves-red .waves-ripple {
+    background-color: rgba(244, 67, 54, 0.7);
+  }
+  
+  .waves-effect.waves-yellow .waves-ripple {
+    background-color: rgba(255, 235, 59, 0.7);
+  }
+  
+  .waves-effect.waves-orange .waves-ripple {
+    background-color: rgba(255, 152, 0, 0.7);
+  }
+  
+  .waves-effect.waves-purple .waves-ripple {
+    background-color: rgba(156, 39, 176, 0.7);
+  }
+  
+  .waves-effect.waves-green .waves-ripple {
+    background-color: rgba(76, 175, 80, 0.7);
+  }
+  
+  .waves-effect.waves-teal .waves-ripple {
+    background-color: rgba(0, 150, 136, 0.7);
+  }
+  
+  .waves-effect input[type="button"], .waves-effect input[type="reset"], .waves-effect input[type="submit"] {
+    border: 0;
+    font-style: normal;
+    font-size: inherit;
+    text-transform: inherit;
+    background: none;
+  }
+  
+  .waves-effect img {
+    position: relative;
+    z-index: -1;
+  }
+  .btn, .btn-large, .btn-small,
+.btn-flat {
+  border: none;
+  border-radius: 2px;
+  display: inline-block;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 16px;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+}
