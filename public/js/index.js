@@ -1,5 +1,7 @@
+/* global store $ */
+
 const MOCK_PICTURES = {
-  pictures: [
+  photoPosts: [
     {
       id: '1111',
       title: 'The Milky Way',
@@ -7,6 +9,7 @@ const MOCK_PICTURES = {
       author: 'Kevin Paras',
       description: 'taken in CA',
       likes: '5',
+      date: '5/1/2018',
     },
     {
       id: '1112',
@@ -15,6 +18,7 @@ const MOCK_PICTURES = {
       author: 'Kevin Paras',
       description: 'compiled over 20 pics',
       likes: '5',
+      date: '5/3/2018',
     },
     {
       id: '1113',
@@ -23,6 +27,7 @@ const MOCK_PICTURES = {
       author: 'Kevin Paras',
       description: 'taken during winter',
       likes: '100',
+      date: '5/6/2018',
     },
     {
       id: '1114',
@@ -31,6 +36,7 @@ const MOCK_PICTURES = {
       author: 'Kevin Paras',
       description: 'its really bright',
       likes: '0',
+      date: '5/9/2018',
     },
     {
       id: '1115',
@@ -39,6 +45,7 @@ const MOCK_PICTURES = {
       author: 'Kevin Paras',
       description: 'nice desert background',
       likes: '6',
+      date: '6/1/2018',
     },
     {
       id: '1116',
@@ -47,6 +54,7 @@ const MOCK_PICTURES = {
       author: 'Vincent',
       description: 'famous picture',
       likes: '8',
+      date: '7/1/2018',
     },
   ],
 };
@@ -56,7 +64,7 @@ function getPictures(callbackFn) {
 }
 
 function displayPictures(data) {
-  const results = data.pictures.map(item => renderPictures(item)).join('');
+  const results = data.photoPosts.map(item => renderPictures(item)).join('');
   $('.row').html(results);
 }
 

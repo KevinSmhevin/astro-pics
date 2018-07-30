@@ -19,43 +19,45 @@ const photoAppRouter = require('./photoAppRouter');
 
 app.use('/photos', photoAppRouter);
 
+app.use('*', (req, res) => res.status(404).json({ message: 'Not Found' }));
+
 let server;
 
-// function runServer(databaseUrl, port = PORT) {
-//   return new Promise((resolve, reject) => {
-//     mongoose.connect(databaseUrl, (err) => {
-//       if (err) {
-//         return reject(err);
-//       }
-//       server = app.listen(port, () => {
-//         console.log(`Your app is listening on ${port}`);
-//       })
-//         .on('error', () => {
-//           mongoose.disconnect();
-//           reject(err);
-//         });
-//     });
-//   });
-// }
+function runServer(databaseUrl, port = PORT) {
+  return new Promise((resolve, reject) => {
+    mongoose.connect(databaseUrl, (err) => {
+      if (err) {
+        console.log(err)
+        return reject(err);
+      }
+      server = app.listen(port, () => {
+        console.log(`Your app is listening on ${port}`);
+        resolve();
+      })
+        .on('error', () => {
+          mongoose.disconnect();
+          reject(err);
+        });
+    });
+  });
+}
 
-// function closeServer() {
-//   return mongoose.disconnect().then()) => {
-//     return new Promise((resolve, reject) => {
-//       console.log('Closing Server');
-//       server.close(err => {
-//         if (err) {
-//           return reject(err)
-//         }
-//         resolve();
-//       });
-//     });
-//   });
-// }
+function closeServer() {
+  return mongoose.disconnect().then(() => new Promise((resolve, reject) => {
+    console.log('Closing Server');
+    server.close((err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
+  }));
+}
 
-// if (require.main === module) {
-//   runServer(DATABASE_URL).catch(err => console.error(err));
-// }
+if (require.main === module) {
+  runServer(DATABASE_URL).catch(err => console.error(err));
+}
 
-app.listen(process.env.PORT || 8080);
+// app.listen(process.env.PORT || 8080);
 
-module.exports = app;
+module.exports = { app, runServer, closeServer };
