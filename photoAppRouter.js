@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
   res.status(200).send('Sucessful');
 });
 
-router.get('/photos', (req, res) => {
+router.get('/all', (req, res) => {
   photoPost
     .find()
     .then((photoPosts) => {

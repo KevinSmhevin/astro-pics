@@ -9,6 +9,18 @@ const photoPostSchema = mongoose.Schema({
   date: { type: Date, required: true },
 });
 
-const photoPost = mongoose.model('photoPost', photoPostSchema);
+photoPostSchema.methods.serialize = function () {
+  return {
+    id: this._id,
+    title: this.title,
+    picture: this.picture,
+    author: this.author,
+    description: this.description,
+    likes: this.likes,
+    date: this.date,
+  };
+};
+
+const photoPost = mongoose.model('photoPost', photoPostSchema, 'photoPost');
 
 module.exports = { photoPost };

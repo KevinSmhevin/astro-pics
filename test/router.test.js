@@ -15,15 +15,6 @@ function tearDownDb() {
   return mongoose.connection.dropDatabase();
 }
 
-function seedPhotoPostData() {
-  console.info('seeding photo post data');
-  const seedData = [];
-  for (let i = 0; i < 10; i++) {
-    seedData.push(generatePhotoPostData());
-  }
-  return photoPost.insertMany(seedData);
-}
-
 function generatePhotoPostData() {
   return {
     title: faker.name.title(),
@@ -33,6 +24,15 @@ function generatePhotoPostData() {
     likes: faker.random.number(),
     date: faker.date.recent(),
   };
+}
+
+function seedPhotoPostData() {
+  console.info('seeding photo post data');
+  const seedData = [];
+  for (let i = 0; i < 10; i++) {
+    seedData.push(generatePhotoPostData());
+  }
+  return photoPost.insertMany(seedData);
 }
 
 describe('Photo Post API resource', function () {
@@ -52,10 +52,18 @@ describe('Photo Post API resource', function () {
     it('should get photos', () => {
       let res;
       return chai.request(app)
-        .get('/photos')
-        .then((_res) => {
+        .get('/photos/all')
+        .then(function(_res) {
           res = _res;
           expect(res).to.have.status(200);
+          expect(res.body.photoPosts).to.have.lengthOf.at.least(1);
+          return photoPost.count();
+        })
+        .then(function(count) {
+          expect(res.body.photoPosts).to.have.lengthOf(count);
+          for (let i=0; i<res.body.photoPosts.length; i++) {
+            expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'likes', 'picture');
+          }
         });
     });
   });

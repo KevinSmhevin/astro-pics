@@ -1,6 +1,6 @@
-
 const { expect } = require('chai');
 const mongoose = require('mongoose');
+require('dotenv').config();
 const { TEST_DATABASE_URL } = require('../config.js');
 
 describe('database', () => {
