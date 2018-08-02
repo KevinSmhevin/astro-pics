@@ -52,7 +52,7 @@ describe('Photo Post API resource', function () {
     return closeServer();
   });
   describe('GET endpoint', () => {
-    it('should get photos', () => {
+    it('should get all photos', () => {
       let res;
       return chai.request(app)
         .get('/photos/all')
@@ -67,6 +67,22 @@ describe('Photo Post API resource', function () {
           for (let i = 0; i < res.body.photoPosts.length; i++) {
             expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'likes', 'smallPicture', 'largePicture');
           }
+        });
+    });
+    it('should get individual photos by ID', () => {
+      let res;
+      return photoPost
+        .findOne()
+        .then(function (post) {
+          const { id } = post;
+          return chai.request(app)
+            .get(`/photos/${id}`)
+            .then(function (_res) {
+              res = _res;
+              expect(res).to.have.status(200);
+              expect(res.body).to.be.a('object');
+              expect(res.body).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'likes', 'smallPicture', 'largePicture');
+            });
         });
     });
   });
