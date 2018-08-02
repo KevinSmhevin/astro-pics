@@ -76,6 +76,16 @@ li {
 
 }
 
+.photo-box-screen {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
 @media only screen and (max-width: 800px), screen and (max-height: 680px) {
 
     .logo {

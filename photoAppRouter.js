@@ -20,4 +20,14 @@ router.get('/all', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+router.get('/:id', (req, res) => {
+  photoPost
+    .findById(req.params.id)
+    .then(post => res.json(post.serialize()))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: 'internal server error' });
+    });
+});
 module.exports = router;
