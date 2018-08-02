@@ -50,7 +50,15 @@ nav {
     margin-right: auto;
 }
 
-ul {
+.indv-pic {
+    display: block;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+.img-content {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -58,8 +66,12 @@ ul {
     list-style-type: none;
 }
   
+ul {
+    list-style-type: none;
+}
+
 li {
-    margin: auto;
+    margin: 5px;
 }
   
 .box {
@@ -76,7 +88,7 @@ li {
 
 }
 
-.photo-box-screen {
+.photo-box-screen-overlay {
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -85,6 +97,30 @@ li {
     display: none;
     background-color: rgba(0, 0, 0, 0.8);
 }
+
+.exit-button {
+    margin: 5px;
+    border: 0;
+    background: transparent;
+}
+
+.photo-box-screen {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 25vh;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.single-photo-container {
+    margin: auto;
+}
+
 
 @media only screen and (max-width: 800px), screen and (max-height: 680px) {
 
@@ -186,93 +222,4 @@ li {
 .ph-btn-red:hover, .ph-btn-red:focus, .ph-btn-red:active {
     background: none repeat scroll 0 0 #EB4848 !important;
     border-color: #E83131 !important;    
-}
-
-.waves-effect {
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    vertical-align: middle;
-    z-index: 1;
-    -webkit-transition: .3s ease-out;
-    transition: .3s ease-out;
-  }
-  
-  .waves-effect .waves-ripple {
-    position: absolute;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
-    margin-left: -10px;
-    opacity: 0;
-    background: rgba(0, 0, 0, 0.2);
-    -webkit-transition: all 0.7s ease-out;
-    transition: all 0.7s ease-out;
-    -webkit-transition-property: opacity, -webkit-transform;
-    transition-property: opacity, -webkit-transform;
-    transition-property: transform, opacity;
-    transition-property: transform, opacity, -webkit-transform;
-    -webkit-transform: scale(0);
-            transform: scale(0);
-    pointer-events: none;
-  }
-  
-  .waves-effect.waves-light .waves-ripple {
-    background-color: rgba(255, 255, 255, 0.45);
-  }
-  
-  .waves-effect.waves-red .waves-ripple {
-    background-color: rgba(244, 67, 54, 0.7);
-  }
-  
-  .waves-effect.waves-yellow .waves-ripple {
-    background-color: rgba(255, 235, 59, 0.7);
-  }
-  
-  .waves-effect.waves-orange .waves-ripple {
-    background-color: rgba(255, 152, 0, 0.7);
-  }
-  
-  .waves-effect.waves-purple .waves-ripple {
-    background-color: rgba(156, 39, 176, 0.7);
-  }
-  
-  .waves-effect.waves-green .waves-ripple {
-    background-color: rgba(76, 175, 80, 0.7);
-  }
-  
-  .waves-effect.waves-teal .waves-ripple {
-    background-color: rgba(0, 150, 136, 0.7);
-  }
-  
-  .waves-effect input[type="button"], .waves-effect input[type="reset"], .waves-effect input[type="submit"] {
-    border: 0;
-    font-style: normal;
-    font-size: inherit;
-    text-transform: inherit;
-    background: none;
-  }
-  
-  .waves-effect img {
-    position: relative;
-    z-index: -1;
-  }
-  .btn, .btn-large, .btn-small,
-.btn-flat {
-  border: none;
-  border-radius: 2px;
-  display: inline-block;
-  height: 36px;
-  line-height: 36px;
-  padding: 0 16px;
-  text-transform: uppercase;
-  vertical-align: middle;
-  -webkit-tap-highlight-color: transparent;
 }

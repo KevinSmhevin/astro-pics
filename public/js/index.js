@@ -1,63 +1,5 @@
 /* global store $ */
 
-const MOCK_PICTURES = {
-  photoPosts: [
-    {
-      id: '1111',
-      title: 'The Milky Way',
-      picture: 'pics/space.jpg',
-      author: 'Kevin Paras',
-      description: 'taken in CA',
-      likes: '5',
-      date: '5/1/2018',
-    },
-    {
-      id: '1112',
-      title: 'Star Trails',
-      picture: 'pics/space.jpg',
-      author: 'Kevin Paras',
-      description: 'compiled over 20 pics',
-      likes: '5',
-      date: '5/3/2018',
-    },
-    {
-      id: '1113',
-      title: 'Orion Nebula',
-      picture: 'pics/space.jpg',
-      author: 'Kevin Paras',
-      description: 'taken during winter',
-      likes: '100',
-      date: '5/6/2018',
-    },
-    {
-      id: '1114',
-      title: 'Lunar Eclipse',
-      picture: 'pics/space.jpg',
-      author: 'Kevin Paras',
-      description: 'its really bright',
-      likes: '0',
-      date: '5/9/2018',
-    },
-    {
-      id: '1115',
-      title: 'Another Milky Way',
-      picture: 'pics/space.jpg',
-      author: 'Kevin Paras',
-      description: 'nice desert background',
-      likes: '6',
-      date: '6/1/2018',
-    },
-    {
-      id: '1116',
-      title: 'Starry Night',
-      picture: 'pics/space.jpg',
-      author: 'Vincent',
-      description: 'famous picture',
-      likes: '8',
-      date: '7/1/2018',
-    },
-  ],
-};
 
 function getAndDisplayPicture(id) {
   getOnePicture(id, displayPicture);
@@ -90,7 +32,14 @@ function watchPictureBoxes() {
   $('.main-container').on('click', '.image-box', (event) => {
     event.preventDefault();
     const ID = $(event.currentTarget).find('.photoId').text();
-    getAndDisplayPicture(ID)
+    getAndDisplayPicture(ID);
+  });
+}
+
+function watchExitButton() {
+  $('.photo-box-screen-overlay').on('click', '.exit-button', (event) => {
+    event.preventDefault();
+    $('.photo-box-screen-overlay').empty().fadeOut(500);
   });
 }
 
@@ -98,11 +47,10 @@ function renderPictures(entry) {
   return `
         <div class="box">
         <article class="image-box">
-          <img class="gal-pic" src ="${entry.picture}">
+          <img class="gal-pic" src ="${entry.smallPicture}">
                         <ul class="img-content">
                            <li><h4 class="img-title">${entry.title}</h4></li>
                            <li><h5 class="author">${entry.author}</h5></li>
-                           <li><p class="likes">${entry.likes}</p></li>
                            <p hidden class="photoId">${entry.id}</></li>
                        </ul>
           </article>
@@ -119,18 +67,24 @@ function displayPictures(data) {
 
 function displayPicture(data) {
   const pictureBox = renderPicture(data);
-  $('.photo-box-screen').html(pictureBox).fadeIn(500);
+  $('.photo-box-screen-overlay').html(pictureBox).fadeIn(500);
 }
 
 function renderPicture(entry) {
   return `
-  <img class="gal-pic" src ="${entry.picture}">
-                        <ul class="img-content">
-                           <li><h4 class="img-title">${entry.title}</h4></li>
-                           <li><h5 class="author">${entry.author}</h5></li>
-                           <li><p class="likes">${entry.likes}</p></li>
-                           </ul>
-  `
+  <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+  <div class="photo-box-screen">
+    <div class="single-photo-container">
+      <img class="indv-pic" src="${entry.largePicture}">
+    </div>
+    <ul class="single-image-content">
+      <li>Title: ${entry.title}</li>
+      <li>Author: ${entry.author}</li>
+      <li>Date: ${entry.date}</li>
+    </ul>
+    <p>${entry.description}</p>
+  </div>
+  `;
 }
 
 function getAndDisplayPictures() {
@@ -140,6 +94,7 @@ function getAndDisplayPictures() {
 function loadPage() {
   getAndDisplayPictures();
   watchPictureBoxes();
+  watchExitButton();
 }
 
 $(loadPage);

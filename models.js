@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const photoPostSchema = mongoose.Schema({
   title: { type: String, required: true },
-  picture: { type: String, required: true },
+  smallPicture: { type: String, required: true },
+  largePicture: { type: String, required: true },
   author: { type: String, required: true },
   description: { type: String, required: false },
   likes: { type: Number, required: true },
@@ -13,7 +14,8 @@ photoPostSchema.methods.serialize = function () {
   return {
     id: this._id,
     title: this.title,
-    picture: this.picture,
+    smallPicture: this.smallPicture,
+    largePicture: this.largePicture,
     author: this.author,
     description: this.description,
     likes: this.likes,

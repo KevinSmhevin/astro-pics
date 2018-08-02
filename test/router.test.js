@@ -1,3 +1,5 @@
+/* eslint prefer-arrow-callback: "off", func-names: "off" */
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const faker = require('faker');
@@ -18,7 +20,8 @@ function tearDownDb() {
 function generatePhotoPostData() {
   return {
     title: faker.name.title(),
-    picture: faker.image.nightlife(),
+    smallPicture: faker.image.nightlife(),
+    largePicture: faker.image.nightlife(),
     author: faker.name.firstName(),
     description: faker.lorem.sentence(),
     likes: faker.random.number(),
@@ -53,16 +56,16 @@ describe('Photo Post API resource', function () {
       let res;
       return chai.request(app)
         .get('/photos/all')
-        .then(function(_res) {
+        .then(function (_res) {
           res = _res;
           expect(res).to.have.status(200);
           expect(res.body.photoPosts).to.have.lengthOf.at.least(1);
           return photoPost.count();
         })
-        .then(function(count) {
+        .then(function (count) {
           expect(res.body.photoPosts).to.have.lengthOf(count);
-          for (let i=0; i<res.body.photoPosts.length; i++) {
-            expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'likes', 'picture');
+          for (let i = 0; i < res.body.photoPosts.length; i++) {
+            expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'likes', 'smallPicture', 'largePicture');
           }
         });
     });
