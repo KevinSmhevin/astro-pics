@@ -60,6 +60,7 @@ function watchPostButton() {
   $('nav').on('click', '.post-button', (event) => {
     event.preventDefault();
     displayPostForm();
+    watchUploadWidget();
   });
 }
 
@@ -73,7 +74,7 @@ function renderPostForm() {
   <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
     <div class="form-container">
       <form id="create-photo-post-form">
-      <input name="file" type="file" class="cloudinary-fileupload" data-cloudinary-field="image_id" data-form-data="{ "upload_preset": "phlaser_", "callback": "https://pacific-fjord-73675.herokuapp.com/cloudinary_cors.html"}"/>
+      <a href="#" id="upload_widget_opener">Upload image</a>
       <label for="title">Title</label>
       <input type="text" name="title"/>
       <label for="description">description</label>
@@ -85,6 +86,15 @@ function renderPostForm() {
     </div>
   `;
 }
+
+
+function watchUploadWidget() {
+  $('#upload_widget_opener').on('click', function() {
+    cloudinary.openUploadWidget({ cloud_name: 'dljvx3nbw', upload_preset: 'phlaser_'}, 
+    function(error, result) { console.log(error, result) })
+  });
+}
+
 
 function renderPictures(entry) {
   return `
@@ -172,12 +182,14 @@ function watchUpload() {
   });
 }
 
+$.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true});
+
 function loadPage() {
   getAndDisplayPictures();
   watchPictureBoxes();
   watchExitButton();
   watchPostButton();
-  watchUpload();
+  // watchUpload();
 }
 
 $(loadPage);
