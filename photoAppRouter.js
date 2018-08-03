@@ -30,4 +30,26 @@ router.get('/:id', (req, res) => {
       res.status(500).json({ message: 'internal server error' });
     });
 });
+
+router.post('/post', (req, res) => {
+  const requiredFields = ['title', 'smallPicture', 'largePicture', 'author', 'description'];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing '${field}' in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+  photoPost.create({
+    title: req.body.title,
+    smallPicture: req.body.smallPicture,
+    largePicture: req.body.largePicture,
+    author: req.body.author,
+    description: req.body.description,
+    likes: 0,
+    date: Date.prototype.getDate(),
+  });
+  return res.status(201).send('post created!');
+});
 module.exports = router;
