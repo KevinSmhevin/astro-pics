@@ -47,7 +47,6 @@ router.post('/post', (req, res) => {
     largePicture: req.body.largePicture,
     author: req.body.author,
     description: req.body.description,
-    likes: 0,
     date: Date.prototype.getDate(),
   });
   return res.status(201).send('post created!');

@@ -133,16 +133,15 @@ li {
 }
 
 .form-container {
-        position: absolute;
-        margin-left: auto;
-        margin-right: auto;
-        top: 25vh;
-        left: 0;
-        right: 0;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 25vh;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #create-photo-post-form {
@@ -151,10 +150,34 @@ li {
     opacity: 0.95;
     padding: 5px;
     border-radius: 5px;
-    width: 25%;
+    width: 30%;
     display: flex;
     flex-direction: column;
+    padding: 2px;
     align-items: center;
+}
+
+.custom-file-container {
+    text-align: center;
+    width: 90%;
+    margin: 0;
+}
+
+.custom-file-container__image-preview {
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.photo-form-field {
+    width: 50%;
+    height: 25px;
+    border-radius: 5px;
+    margin-top: 2px;
+}
+
+.custom-file-container__custom-file {
+    text-align: left;
 }
 @media only screen and (max-width: 800px), screen and (max-height: 680px) {
 
@@ -177,7 +200,17 @@ li {
   .photo-box-screen {
       top: 15vh;
   }
-
+  .custom-file-container__image-preview {
+    width: 0px;
+    height: 0px;
+}
+#create-photo-post-form {
+    width: 65%;
+    font-size: 14px;
+}
+.form-container {
+    top: 10vh;
+}
 }
 
 @media only screen and (max-height: 450px) {

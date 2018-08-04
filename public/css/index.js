@@ -55,39 +55,18 @@ function watchExitButton() {
     $('.photo-box-screen-overlay').empty().fadeOut(500);
   });
 }
-let upload;
+
 function watchPostButton() {
   $('nav').on('click', '.post-button', (event) => {
     event.preventDefault();
     displayPostForm();
-    upload = new FileUploadWithPreview('astroUpload');
-    watchPostFormSubmit();
+    let upload = new FileUploadWithPreview('astroUpload');
     // watchUploadWidget();
   });
 }
 
-function watchPostFormSubmit() {
-  // $('.photo-box-screen-overlay').on('click', '.form-button', (event) => {
-  //   event.preventDefault();
-  //   console.log('hi');
-  $('#create-photo-post-form').submit((event) => {
-    event.preventDefault();
-    let postData = {
-      smallpicture: upload.cachedFileArray[0],
-      largepicture: upload.cachedFileArray[0],
-    };
-    $(event.currentTarget).serializeArray().forEach((attribute) => {
-      postData[attribute.name] = attribute.value;
-    });
-    console.log(postData);
-    createPicture(postData, getAndDisplayPictures);
-  });
-  // });
-}
-// (event.currentTarget).find('#create-photo-post-form')
 
 function displayPostForm() {
-  console.log('hello');
   const formPost = renderPostForm();
   $('.photo-box-screen-overlay').html(formPost).fadeIn(500);
 }
@@ -109,14 +88,13 @@ function renderPostForm() {
 
 
       <label for="title">Title</label>
-      <input class="photo-form-field" type="text" name="title"/>
+      <input type="text" name="title"/>
       <label for="description">description</label>
-      <input class="photo-form-field" type="text" name="description"/>
+      <input type="text" name="description"/>
       <label for="author">Photographer</label>
-      <input class="photo-form-field" type="text" name="author"/>
-      <label for="button></label>
+      <input type="text" name="author"/>
+      <button type="submit" class="ph-btn-grey ph-button form-button">Post</button>
       </form>
-      <button type="submit" form="#create-photo-post-form" class="ph-btn-grey ph-button form-button" value="submit">Post</button>
     </div>
   `;
 }

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const FileUploadWithPreview = require('file-upload-with-preview');
 
 mongoose.Promise = global.Promise;
 // starts the dotenv
@@ -27,7 +28,7 @@ function runServer(databaseUrl, port = PORT) {
   return new Promise((resolve, reject) => {
     mongoose.connect(databaseUrl, (err) => {
       if (err) {
-        console.log(err)
+        console.log(err);
         return reject(err);
       }
       server = app.listen(port, () => {

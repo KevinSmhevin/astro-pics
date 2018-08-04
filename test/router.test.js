@@ -81,7 +81,7 @@ describe('Photo Post API resource', function () {
               res = _res;
               expect(res).to.have.status(200);
               expect(res.body).to.be.a('object');
-              expect(res.body).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'likes', 'smallPicture', 'largePicture');
+              expect(res.body).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'smallPicture', 'largePicture');
             });
         });
     });

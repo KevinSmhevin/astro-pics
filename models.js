@@ -6,7 +6,6 @@ const photoPostSchema = mongoose.Schema({
   largePicture: { type: String, required: true },
   author: { type: String, required: true },
   description: { type: String, required: false },
-  likes: { type: Number, required: true },
   date: { type: Date, required: true },
 });
 
@@ -18,7 +17,6 @@ photoPostSchema.methods.serialize = function () {
     largePicture: this.largePicture,
     author: this.author,
     description: this.description,
-    likes: this.likes,
     date: this.date,
   };
 };
