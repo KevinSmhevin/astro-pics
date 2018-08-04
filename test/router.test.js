@@ -24,7 +24,6 @@ function generatePhotoPostData() {
     largePicture: faker.image.nightlife(),
     author: faker.name.firstName(),
     description: faker.lorem.sentence(),
-    likes: faker.random.number(),
     date: faker.date.recent(),
   };
 }
