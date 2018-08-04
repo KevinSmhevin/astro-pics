@@ -64,7 +64,7 @@ describe('Photo Post API resource', function () {
         .then(function (count) {
           expect(res.body.photoPosts).to.have.lengthOf(count);
           for (let i = 0; i < res.body.photoPosts.length; i++) {
-            expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'likes', 'smallPicture', 'largePicture');
+            expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'smallPicture', 'largePicture');
           }
         });
     });
