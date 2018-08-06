@@ -100,7 +100,7 @@ li {
     top: 0;
     left: 0;
     display: none;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .exit-button {
@@ -248,6 +248,11 @@ li {
 .form-container {
     top: 10vh;
 }
+
+#update-form {
+    width: 65%;
+    font-size: 14px;
+}
 }
 
 @media only screen and (max-width: 1200px) {
@@ -285,6 +290,20 @@ li {
       flex-wrap: wrap;
   }
 
+  .single-image-content {
+      margin-left: 30px;
+  }
+  
+  #create-photo-post-form {
+      width: 40%;
+  }
+  .form-container {
+    padding: 10px;
+    flex-direction: row-reverse;
+    top: 5vh;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 }
 /*Main button class
 ==========================*/
