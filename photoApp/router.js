@@ -46,7 +46,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/post', (req, res) => {
-  const requiredFields = ['title', 'smallPicture', 'largePicture', 'author', 'description', 'MAX_FILE_SIZE'];
+  const requiredFields = ['title', 'smallPicture', 'largePicture', 'author', 'description'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
     if (!(field in req.body)) {
@@ -55,13 +55,13 @@ router.post('/post', (req, res) => {
       return res.status(400).send(message);
     }
   }
+
   photoPost.create({
     title: req.body.title,
     smallPicture: req.body.smallPicture,
     largePicture: req.body.largePicture,
     author: req.body.author,
     description: req.body.description,
-    MAX_FILE_SIZE: req.body.MAX_FILE_SIZE,
     date: 'today date',
   });
   return res.status(201).json({message: 'post created!'});

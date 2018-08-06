@@ -83,22 +83,19 @@ function watchPostButton() {
   $('nav').on('click', '.post-button', (event) => {
     event.preventDefault();
     displayPostForm();
-    upload = new FileUploadWithPreview('astroUpload');
-    // watchUploadWidget();
+    // upload = new FileUploadWithPreview('astroUpload');
+    watchUploadWidget();
   });
 }
 
 function watchPostFormSubmit() {
-  // $('.photo-box-screen-overlay').on('click', '.form-button', (event) => {
-  //   event.preventDefault();
-  //   console.log('hi');
   $('#create-photo-post-form').submit((event) => {
     event.preventDefault();
-    const picture = upload.cachedFileArray;
-    console.log(picture);
+    STATE.largePicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_fit,h_500,o_100,q_100,w_400/${STATE.photo}`
+    STATE.smallPicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_pad,h_375,o_100,q_100,w_375/${STATE.photo}`
     const postData = {
-      smallPicture: picture,
-      largePicture: picture,
+      smallPicture: STATE.smallPicture,
+      largePicture: STATE.largePicture,
     };
     $(event.currentTarget).serializeArray().forEach((attribute) => {
       postData[attribute.name] = attribute.value;
@@ -106,12 +103,10 @@ function watchPostFormSubmit() {
     console.log(postData);
     createPicture(postData, getAndDisplayPictures);
   });
-  // });
 }
 
 function watchUpdateFormSubmit() {
   $('.photo-box-screen-overlay').on('submit', '#update-form', (event) => {
-  // $('#update-form').submit((event) => {
     event.preventDefault();
     const updateData = {};
     $(event.currentTarget).serializeArray().forEach((attribute) => {
@@ -125,7 +120,7 @@ function watchUpdateFormSubmit() {
 function watchUpdateButton() {
   $('.photo-box-screen-overlay').on('click', '.edit-button', (event) => {
     event.preventDefault();
-    getOnePicture(STATE.id, displayUpdateForm)
+    getOnePicture(STATE.id, displayUpdateForm);
   });
 }
 
@@ -180,29 +175,50 @@ function renderUpdateForm(entry) {
   </div>
   `;
 }
+ 
 
+function watchUploadWidget() {
+  $('#upload_widget_opener').on('click', () => {
+    cloudinary.openUploadWidget({ 
+      cloud_name: 'dljvx3nbw',
+      upload_preset: 'phlaser_',
+      // form: '#create-photo-post-form',
+      // field_name: 'photo',
+      // thumbnails: '.photo-slot',
+    },
+    (error, result) => { STATE.photo = result[0].path; });
+  });
+}
+
+function watchUpload() {
+  $('.cloudinary-fileupload').bind('cloudinarydone', (e, data) => {
+    $('.preview').html(
+      $.cloudinary.imageTag(data.result.public_id,
+        {
+          format: data.result.format,
+          version: data.result.version,
+          crop: 'scale',
+          width: 200,
+        }),
+    );
+    $('.image_public_id').val(data.result.public_id);
+    console.log(data.result.public_id);
+    return true;
+  });
+}
 
 function displayPostForm() {
   const formPost = renderPostForm();
   $('.photo-box-screen-overlay').html(formPost).fadeIn(500);
   watchPostFormSubmit();
 }
-// {/* <a href="#" id="upload_widget_opener">Upload image</a> */}
+ 
 function renderPostForm() {
   return `
   <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
     <div class="form-container">
       <form id="create-photo-post-form" action="#">
-            <div class="custom-file-container" data-upload-id="astroUpload">
-                <label>Upload (Single File) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
-                <label class="custom-file-container__custom-file" >
-                    <input type="file" class="custom-file-container__custom-file__custom-file-input" accept="image/*">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-                    <span class="custom-file-container__custom-file__custom-file-control"></span>
-                </label>
-                <div class="custom-file-container__image-preview"></div>
-            </div>
-
+      <a href="#" id="upload_widget_opener">Upload image</a>  
       <label for="title">Title</label>
       <input class="photo-form-field" type="text" name="title"/>
       <label for="description">description</label>
@@ -217,14 +233,6 @@ function renderPostForm() {
   `;
 }
 
-// function watchUploadWidget() {
-//   $('#upload_widget_opener').on('click', () => {
-//     cloudinary.openUploadWidget({ cloud_name: 'dljvx3nbw', upload_preset: 'phlaser_', form: '#create-photo-post-form', field_name: 'photo', thumbnails: '.photo-slot'},
-//       (error, result) => { console.log(error, result); });
-//   });
-// }
-
-
 function renderPictures(entry) {
   return `
         <div class="box">
@@ -237,9 +245,6 @@ function renderPictures(entry) {
                        </ul>
           </article>
         </div>`;
-  // adding to return div when feature is added
-  // </li><button class="ph-btn-grey ph-button like-button"
-  // type="button"><img src="pics/like.png"></button></li>
 }
 
 function displayPictures(data) {
@@ -298,23 +303,6 @@ function getAndDisplayPictures() {
   getPictures(displayPictures);
 }
 
-// function watchUpload() {
-//   $('.cloudinary-fileupload').bind('cloudinarydone', (e, data) => {
-//     $('.preview').html(
-//       $.cloudinary.imageTag(data.result.public_id,
-//         {
-//           format: data.result.format,
-//           version: data.result.version,
-//           crop: 'scale',
-//           width: 200,
-//         }),
-//     );
-//     $('.image_public_id').val(data.result.public_id);
-//     console.log(data.result.public_id);
-//     return true;
-//   });
-// }
-
 $.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true });
 
 function loadPage() {
@@ -323,6 +311,7 @@ function loadPage() {
   watchExitButton();
   watchPostButton();
   watchUpdateButton();
+  watchUpload();
 }
 
 $(loadPage);

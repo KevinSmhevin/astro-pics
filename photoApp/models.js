@@ -4,11 +4,10 @@ const mongoose = require('mongoose');
 
 const photoPostSchema = mongoose.Schema({
   title: { type: String, required: true },
-  smallPicture: { data: Buffer, contentType: String, type: String, required: true },
-  largePicture: { data: Buffer, contentType: String, type: String, required: true },
+  smallPicture: { type: String, required: true },
+  largePicture: { type: String, required: true },
   author: { type: String, required: true },
   description: { type: String, required: false },
-  MAX_FILE_SIZE: { type: String, required: true },
   date: { type: String, required: false },
 });
 
@@ -20,7 +19,6 @@ photoPostSchema.methods.serialize = function () {
     largePicture: this.largePicture,
     author: this.author,
     description: this.description,
-    MAX_FILE_SIZE: this.MAX_FILE_SIZE,
     date: this.date,
   };
 };
