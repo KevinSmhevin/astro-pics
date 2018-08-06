@@ -1,11 +1,12 @@
+// starts the dotenv
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const passport = require('passport');
 const FileUploadWithPreview = require('file-upload-with-preview');
 
 mongoose.Promise = global.Promise;
-// starts the dotenv
-require('dotenv').config();
 
 const app = express();
 
@@ -16,9 +17,33 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const { DATABASE_URL, PORT } = require('./config');
-const photoAppRouter = require('./photoAppRouter');
+const { router: usersRouter } = require('./users/router');
+const { router: authRouter } = require('./auth/router');
+const { localStrategy, jwtStrategy } = require('./auth/strategies');
+const { router: photoRouter } = require('./photoApp/router');
 
-app.use('/photos', photoAppRouter);
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  if (req.method === 'OPTIONS') {
+    return res.send(204);
+  }
+  next();
+});
+
+app.use('/api/users', usersRouter);
+app.use('/api/auth', authRouter);
+app.use('/photos', photoRouter);
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
+
+app.get('/api/protected', jwtAuth, (req, res) => res.json({
+  data: 'rosebud',
+}));
 
 app.use('*', (req, res) => res.status(404).json({ message: 'Not Found' }));
 
@@ -59,6 +84,5 @@ if (require.main === module) {
   runServer(DATABASE_URL).catch(err => console.error(err));
 }
 
-// app.listen(process.env.PORT || 8080);
 
 module.exports = { app, runServer, closeServer };

@@ -110,6 +110,33 @@ li {
     background: transparent;
 }
 
+.edit-button {
+    border-style: solid;
+    border-width: 0px 0px 3px;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    color: #FFFFFF;	   
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    font-style: normal;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all 200ms ease-in-out 0s;
+    white-space: nowrap;	
+    font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 20px;
+    font-size: 15px; 
+    margin: 5px;
+    border-color: #326E99;
+    background-color: #3F8ABF
+}
+
 .exit-button:hover {
     cursor: pointer;
     border: 1px dashed darkgray;
@@ -179,7 +206,17 @@ li {
 .custom-file-container__custom-file {
     text-align: left;
 }
-@media only screen and (max-width: 800px), screen and (max-height: 680px) {
+
+#update-form {
+    padding: 5px;
+    border-radius: 5px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+    align-items: center;
+}
+@media only screen and (max-width: 860px), screen and (max-height: 680px) {
 
     .logo {
         width: 75%;
@@ -213,6 +250,11 @@ li {
 }
 }
 
+@media only screen and (max-width: 1200px) {
+    .img-content {
+        font-size: 12px;
+    }
+}
 @media only screen and (max-height: 450px) {
 
     .logo {

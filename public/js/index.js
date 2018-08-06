@@ -1,6 +1,7 @@
 const STATE = {
   viewportHeight: 0,
   viewportWidth: 0,
+  id: '',
 };
 
 function getPictures(callback) {
@@ -29,10 +30,32 @@ function createPicture(postData, callback) {
   const queryData = {
     url: '/photos/post',
     type: 'POST',
-    datatype: 'json',
+    dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify(postData),
     success: callback,
+    error(xhr, ajaxOptions, thrownError) {
+      alert(xhr.status);
+      alert(xhr.responseText);
+      alert(thrownError);
+    },
+  };
+  $.ajax(queryData);
+}
+
+function updateContent(updateData, callback) {
+  const queryData = {
+    url: `/photos/${STATE.id}`,
+    type: 'PUT',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(updateData),
+    success: callback,
+    error(xhr, ajaxOptions, thrownError) {
+      alert(xhr.status);
+      alert(xhr.responseText);
+      alert(thrownError);
+    },
   };
   $.ajax(queryData);
 }
@@ -44,8 +67,8 @@ function getAndDisplayPicture(id) {
 function watchPictureBoxes() {
   $('.main-container').on('click', '.image-box', (event) => {
     event.preventDefault();
-    const ID = $(event.currentTarget).find('.photoId').text();
-    getAndDisplayPicture(ID);
+    STATE.id = $(event.currentTarget).find('.photoId').text();
+    getAndDisplayPicture(STATE.id);
   });
 }
 
@@ -61,7 +84,6 @@ function watchPostButton() {
     event.preventDefault();
     displayPostForm();
     upload = new FileUploadWithPreview('astroUpload');
-    watchPostFormSubmit();
     // watchUploadWidget();
   });
 }
@@ -72,9 +94,11 @@ function watchPostFormSubmit() {
   //   console.log('hi');
   $('#create-photo-post-form').submit((event) => {
     event.preventDefault();
-    let postData = {
-      smallpicture: upload.cachedFileArray[0],
-      largepicture: upload.cachedFileArray[0],
+    const picture = upload.cachedFileArray;
+    console.log(picture);
+    const postData = {
+      smallPicture: picture,
+      largePicture: picture,
     };
     $(event.currentTarget).serializeArray().forEach((attribute) => {
       postData[attribute.name] = attribute.value;
@@ -84,19 +108,91 @@ function watchPostFormSubmit() {
   });
   // });
 }
-// (event.currentTarget).find('#create-photo-post-form')
+
+function watchUpdateFormSubmit() {
+  $('.photo-box-screen-overlay').on('submit', '#update-form', (event) => {
+  // $('#update-form').submit((event) => {
+    event.preventDefault();
+    const updateData = {};
+    $(event.currentTarget).serializeArray().forEach((attribute) => {
+      updateData[attribute.name] = attribute.value;
+    });
+    console.log(updateData);
+    updateContent(updateData, displayUpdatedPicture);
+  });
+}
+
+function watchUpdateButton() {
+  $('.photo-box-screen-overlay').on('click', '.edit-button', (event) => {
+    event.preventDefault();
+    getOnePicture(STATE.id, displayUpdateForm)
+  });
+}
+
+function displayUpdateForm(data) {
+  $('.photo-box-screen-overlay').empty();
+  const updateForm = renderUpdateForm(data);
+  $('.photo-box-screen-overlay').html(updateForm);
+}
+
+function displayUpdatedPicture() {
+  console.log('it reaches this function');
+  $('.photo-box-screen-overlay').empty();
+  getAndDisplayPicture(STATE.id);
+}
+
+function renderUpdateForm(entry) {
+  viewportChecker();
+  if (STATE.viewportWidth > 800 && STATE.viewportHeight > 680) {
+    return `
+    <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+    <div class="form-container">
+      <div class="single-photo-container">
+        <img class="indv-pic" src="${entry.largePicture}">
+      </div>
+      <form id="update-form" action="#">
+      <input type="hidden" name="id" value="${entry.id}"/>
+      <label for="title">Title</label>
+      <input class="photo-form-field" type="text" name="title" value="${entry.title}"/>
+      <label for="description">Description</label>
+      <input class="photo-form-field" type="text" name="description" value="${entry.description}"/>
+      <label for="button"></label>
+      <button type="submit" form="update-form" class="ph-btn-grey ph-button form-button">Update</button>
+      </form>
+    </div>
+    `;
+  }
+  return `
+  <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+  <div class="form-container">
+    <div class="single-photo-container">
+      <img class="indv-pic" src="${entry.smallPicture}">
+    </div>
+    <form id="update-form" action="#">
+    <input type="hidden" name="id" value="${entry.id}"/>
+    <label for="title">Title</label>
+    <input class="photo-form-field" type="text" name="title" value="${entry.title}"/>
+    <label for="description">description</label>
+    <input class="photo-form-field" type="text" name="description" value="${entry.description}"/>
+    <label for="button"></label>
+    <button type="submit" form="update-form" class="ph-btn-grey ph-button form-button" value="submit">Update</button>
+    </form>
+  </div>
+  `;
+}
+
 
 function displayPostForm() {
-  console.log('hello');
   const formPost = renderPostForm();
   $('.photo-box-screen-overlay').html(formPost).fadeIn(500);
+  watchPostFormSubmit();
 }
 // {/* <a href="#" id="upload_widget_opener">Upload image</a> */}
 function renderPostForm() {
   return `
   <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
     <div class="form-container">
-      <form id="create-photo-post-form">
+      <form id="create-photo-post-form" action="#">
             <div class="custom-file-container" data-upload-id="astroUpload">
                 <label>Upload (Single File) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
                 <label class="custom-file-container__custom-file" >
@@ -107,16 +203,16 @@ function renderPostForm() {
                 <div class="custom-file-container__image-preview"></div>
             </div>
 
-
       <label for="title">Title</label>
       <input class="photo-form-field" type="text" name="title"/>
       <label for="description">description</label>
       <input class="photo-form-field" type="text" name="description"/>
       <label for="author">Photographer</label>
       <input class="photo-form-field" type="text" name="author"/>
-      <label for="button></label>
+      <label for="button"></label>
+      <button type="submit" form="create-photo-post-form" class="ph-btn-grey ph-button form-button" value="submit">Post</button>
       </form>
-      <button type="submit" form="#create-photo-post-form" class="ph-btn-grey ph-button form-button" value="submit">Post</button>
+      
     </div>
   `;
 }
@@ -154,6 +250,7 @@ function displayPictures(data) {
 function displayPicture(data) {
   const pictureBox = renderPicture(data);
   $('.photo-box-screen-overlay').html(pictureBox).fadeIn(500);
+  watchUpdateFormSubmit();
 }
 
 function viewportChecker() {
@@ -166,6 +263,7 @@ function renderPicture(entry) {
   if (STATE.viewportWidth > 800 && STATE.viewportHeight > 680) {
     return `
     <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+    <button type="button" class="edit-button">edit</button>
     <div class="photo-box-screen">
       <div class="single-photo-container">
         <img class="indv-pic" src="${entry.largePicture}">
@@ -181,6 +279,7 @@ function renderPicture(entry) {
   }
   return `
     <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+    <button type="button" class="edit-button">edit</button>
     <div class="photo-box-screen">
       <div class="single-photo-container">
         <img class="indv-pic" src="${entry.smallPicture}">
@@ -199,22 +298,22 @@ function getAndDisplayPictures() {
   getPictures(displayPictures);
 }
 
-function watchUpload() {
-  $('.cloudinary-fileupload').bind('cloudinarydone', (e, data) => {
-    $('.preview').html(
-      $.cloudinary.imageTag(data.result.public_id,
-        {
-          format: data.result.format,
-          version: data.result.version,
-          crop: 'scale',
-          width: 200,
-        }),
-    );
-    $('.image_public_id').val(data.result.public_id);
-    console.log(data.result.public_id);
-    return true;
-  });
-}
+// function watchUpload() {
+//   $('.cloudinary-fileupload').bind('cloudinarydone', (e, data) => {
+//     $('.preview').html(
+//       $.cloudinary.imageTag(data.result.public_id,
+//         {
+//           format: data.result.format,
+//           version: data.result.version,
+//           crop: 'scale',
+//           width: 200,
+//         }),
+//     );
+//     $('.image_public_id').val(data.result.public_id);
+//     console.log(data.result.public_id);
+//     return true;
+//   });
+// }
 
 $.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true });
 
@@ -223,7 +322,7 @@ function loadPage() {
   watchPictureBoxes();
   watchExitButton();
   watchPostButton();
-  watchUpload();
+  watchUpdateButton();
 }
 
 $(loadPage);

@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const { expect } = chai;
 const { app, runServer, closeServer } = require('../server');
-const { photoPost } = require('../models.js');
+const { photoPost } = require('../photoApp/models.js');
 const { TEST_DATABASE_URL } = require('../config.js');
 
 chai.use(chaiHttp);
@@ -25,6 +25,7 @@ function generatePhotoPostData() {
     author: faker.name.firstName(),
     description: faker.lorem.sentence(),
     date: faker.date.recent(),
+    MAX_FILE_SIZE: faker.random.number(),
   };
 }
 
@@ -64,7 +65,7 @@ describe('Photo Post API resource', function () {
         .then(function (count) {
           expect(res.body.photoPosts).to.have.lengthOf(count);
           for (let i = 0; i < res.body.photoPosts.length; i++) {
-            expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'smallPicture', 'largePicture');
+            expect(res.body.photoPosts[i]).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'smallPicture', 'largePicture', 'MAX_FILE_SIZE');
           }
         });
     });
@@ -80,7 +81,7 @@ describe('Photo Post API resource', function () {
               res = _res;
               expect(res).to.have.status(200);
               expect(res.body).to.be.a('object');
-              expect(res.body).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'smallPicture', 'largePicture');
+              expect(res.body).to.have.all.keys('id', 'title', 'author', 'date', 'description', 'smallPicture', 'largePicture', 'MAX_FILE_SIZE');
             });
         });
     });

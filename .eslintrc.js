@@ -5,7 +5,10 @@ module.exports = {
         "no-console": "off",
         "no-plusplus": "off",
         "no-underscore-dangle": "warn",
-        "consistent-return": "warn"
+        "consistent-return": "off",
+        "func-names": "off",
+        "prefer-promise-reject-errors": "off",
+        "consistent-return": "off",
     },
     "plugins": [
         "mocha"
