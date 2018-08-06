@@ -9,6 +9,7 @@ module.exports = {
         "func-names": "off",
         "prefer-promise-reject-errors": "off",
         "consistent-return": "off",
+        "no-undef": "off",
     },
     "plugins": [
         "mocha"

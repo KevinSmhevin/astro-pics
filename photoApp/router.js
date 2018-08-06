@@ -64,7 +64,7 @@ router.post('/post', (req, res) => {
     MAX_FILE_SIZE: req.body.MAX_FILE_SIZE,
     date: 'today date',
   });
-  return res.status(201).send('post created!');
+  return res.status(201).json({message: 'post created!'});
 });
 
 router.put('/:id', (req, res) => {
