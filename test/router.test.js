@@ -86,4 +86,29 @@ describe('Photo Post API resource', function () {
         });
     });
   });
+  describe('PUT endpoint', () => {
+    it('should update a post', () => {
+      const updateData = {
+        title: 'Update Title',
+        description: 'Updated Description',
+      };
+      return photoPost
+        .findOne()
+        .then(function (post) {
+          updateData.id = post.id;
+          return chai.request(app)
+            .put(`/photos/${post.id}`)
+            .send(updateData);
+        })
+        .then(function (res) {
+          expect(res).to.have.status(200);
+
+          return photoPost.findById(updateData.id);
+        })
+        .then(function (post) {
+          expect(post.title).to.equal(updateData.title);
+          expect(post.description).to.equal(updateData.description);
+        });
+    });
+  });
 });
