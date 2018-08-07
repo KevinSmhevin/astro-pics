@@ -159,6 +159,7 @@ li {
     margin: auto;
 }
 
+
 .form-container {
     position: absolute;
     margin-left: auto;
@@ -216,7 +217,15 @@ li {
     padding: 2px;
     align-items: center;
 }
-@media only screen and (max-width: 860px), screen and (max-height: 680px) {
+
+.image-upload-success {
+    margin-bottom: 10px;
+}
+
+.single-image-content > li {
+    margin: 15px;
+}
+@media only screen and (max-width: 800px), screen and (max-height: 680px) {
 
     .logo {
         width: 75%;
@@ -252,6 +261,10 @@ li {
 #update-form {
     width: 65%;
     font-size: 14px;
+}
+
+.single-image-content > li {
+    margin: 5px;
 }
 }
 
@@ -338,7 +351,7 @@ li {
 }
 
 .form-button {
-    margin: 5px;
+    margin: 15px;
     padding: 10px;
     font-size: 14px;
 }

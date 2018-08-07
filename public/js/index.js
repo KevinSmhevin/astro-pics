@@ -112,9 +112,26 @@ function watchUpdateFormSubmit() {
     $(event.currentTarget).serializeArray().forEach((attribute) => {
       updateData[attribute.name] = attribute.value;
     });
-    console.log(updateData);
-    updateContent(updateData, displayUpdatedPicture);
+    if (updateData.title.length <= 15 && updateData.description.length <= 200) {
+      updateContent(updateData, displayUpdatedPicture);
+    } else {
+      $('.error-container').html('<h4>Title must be under 16 characters. Description must be under 201 characters</h4>');
+    }
   });
+}
+
+function titleLengthReq(title) {
+  if (title.length <= 15) {
+    return true;
+  }
+  return false;
+}
+
+function descriptionLengthReq(title) {
+  if (title.length <= 15) {
+    return true;
+  }
+  return false;
 }
 
 function watchUpdateButton() {
@@ -142,6 +159,7 @@ function renderUpdateForm(entry) {
     return `
     <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
     <div class="form-container">
+    <div class="error-container"></div>
       <div class="single-photo-container">
         <img class="indv-pic" src="${entry.largePicture}">
       </div>
@@ -175,18 +193,20 @@ function renderUpdateForm(entry) {
   </div>
   `;
 }
- 
+
 
 function watchUploadWidget() {
   $('#upload_widget_opener').on('click', () => {
-    cloudinary.openUploadWidget({ 
+    cloudinary.openUploadWidget({
       cloud_name: 'dljvx3nbw',
       upload_preset: 'phlaser_',
       // form: '#create-photo-post-form',
       // field_name: 'photo',
       // thumbnails: '.photo-slot',
     },
-    (error, result) => { STATE.photo = result[0].path; });
+    (error, result) => { STATE.photo = result[0].path;
+      $('.image-upload-success').html('<h4>image upload successful!</h4>');
+    });
   });
 }
 
@@ -212,13 +232,14 @@ function displayPostForm() {
   $('.photo-box-screen-overlay').html(formPost).fadeIn(500);
   watchPostFormSubmit();
 }
- 
+
 function renderPostForm() {
   return `
   <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
     <div class="form-container">
       <form id="create-photo-post-form" action="#">
-      <a href="#" id="upload_widget_opener">Upload image</a>  
+      <a href="#" id="upload_widget_opener" class="ph-btn-green ph-button form-button">Upload image</a>  
+      <div class="image-upload-success"></div>
       <label for="title">Title</label>
       <input class="photo-form-field" type="text" name="title"/>
       <label for="description">description</label>
