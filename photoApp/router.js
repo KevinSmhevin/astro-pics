@@ -128,6 +128,6 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   photoPost.findByIdAndRemove(req.params.id)
     .then(post => res.status(204).end())
-    .catch(err => res.status(500).json({ message: 'Internal server error' }));
+    .catch(err => res.status(500).json({ message: 'Internal server error Hello' }));
 });
 module.exports = { router };

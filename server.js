@@ -4,7 +4,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
-const FileUploadWithPreview = require('file-upload-with-preview');
 
 mongoose.Promise = global.Promise;
 

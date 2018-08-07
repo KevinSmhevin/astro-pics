@@ -108,33 +108,9 @@ li {
     padding: 5px;
     border: 0;
     background: transparent;
-}
-
-.edit-button {
-    border-style: solid;
-    border-width: 0px 0px 3px;
-    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
-    color: #FFFFFF;	   
-    border-radius: 6px;
-    cursor: pointer;
-    display: inline-block;
-    font-style: normal;
-    overflow: hidden;
-    text-align: center;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    transition: all 200ms ease-in-out 0s;
-    white-space: nowrap;	
-    font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
-    font-weight: 700;
     position: fixed;
     top: 0;
     right: 0;
-    padding: 20px;
-    font-size: 15px; 
-    margin: 5px;
-    border-color: #326E99;
-    background-color: #3F8ABF
 }
 
 .exit-button:hover {
@@ -154,11 +130,6 @@ li {
     justify-content: center;
     text-align: center;
 }
-
-.single-photo-container {
-    margin: auto;
-}
-
 
 .form-container {
     position: absolute;
@@ -226,11 +197,118 @@ li {
     margin: 15px;
 }
 
-.delete-button {
-    position: absolute;
-left: 0px;
-bottom: 0px;
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
+/*Main button class
+==========================*/
+.ph-button {
+	
+    border-style: solid;
+    border-width: 0px 0px 3px;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    color: #FFFFFF;	   
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    font-style: normal;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: all 200ms ease-in-out 0s;
+    white-space: nowrap;	
+    font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
+    font-weight: 600;	
+}
+
+.nav-button {
+    padding: 20px;
+    font-size: 15px; 
+}
+
+.form-button {
+    margin: 15px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.delete-button, .edit-button {
+    margin: 15px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.do-not-delete-button, .yes-delete-button {
+    margin: 15px;
+    padding: 5px 20px 5px 20px;
+    font-size: 14px;
+}
+.delete-prompt-box {
+    border: 3px solid #ED5A5A;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 5px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+/*Green
+==========================*/
+.ph-btn-green {
+
+    border-color: #3AC162;
+	background-color: #5FCF80;
+
+}
+.ph-btn-green:hover, .ph-btn-green:focus, .ph-btn-green:active {
+    background-color: #4BC970;
+    border-color: #3AC162;    
+}
+
+/*Blue
+==========================*/
+.ph-btn-blue {
+
+    border-color: #326E99;
+    background-color: #3F8ABF;
+}
+
+.ph-btn-blue:hover, .ph-btn-blue:focus, .ph-btn-blue:active {
+    background-color: #397CAC;
+    border-color: #326E99;   
+}
+
+/*Grey
+==========================*/
+.ph-btn-grey {
+
+     background-color: #C6CCD2;
+     border-color: #AAB3BB;
+}
+.ph-btn-grey:hover, .ph-btn-grey:focus, .ph-btn-grey:active {
+    background-color: #B8BFC7;
+    border-color: #AAB3BB; 
+}
+
+/*Red
+==========================*/
+.ph-btn-red {
+
+    background-color: #ED5A5A !important;
+    border-color: #EA4343 !important;
+
+}
+.ph-btn-red:hover, .ph-btn-red:focus, .ph-btn-red:active {
+    background: none repeat scroll 0 0 #EB4848 !important;
+    border-color: #E83131 !important;    
+}
+
 @media only screen and (max-width: 800px), screen and (max-height: 680px) {
 
     .logo {
@@ -250,7 +328,7 @@ bottom: 0px;
         margin-bottom: 10px;
     }
   .photo-box-screen {
-      top: 15vh;
+      top: 10vh;
   }
   .custom-file-container__image-preview {
     width: 0px;
@@ -303,7 +381,7 @@ bottom: 0px;
 
   .photo-box-screen {
       padding: 10px;
-      flex-direction: row-reverse;
+      flex-direction: row;
       top: 5vh;
       align-items: center;
       flex-wrap: wrap;
@@ -318,96 +396,39 @@ bottom: 0px;
   }
   .form-container {
     padding: 10px;
-    flex-direction: row-reverse;
+    flex-direction: row;
     top: 5vh;
     align-items: center;
     flex-wrap: wrap;
   }
-}
-/*Main button class
-==========================*/
-.ph-button {
-	
-    border-style: solid;
-    border-width: 0px 0px 3px;
-    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
-    color: #FFFFFF;	   
-    border-radius: 6px;
-    cursor: pointer;
-    display: inline-block;
-    font-style: normal;
-    overflow: hidden;
-    text-align: center;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    transition: all 200ms ease-in-out 0s;
-    white-space: nowrap;	
-    font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
-    font-weight: 700;	
-}
-
-.nav-button {
-    padding: 20px;
-    font-size: 15px; 
-}
-
-.like-button {
-    padding: 10px;
-    font-size: 10px;
-}
-
-.form-button {
-    margin: 15px;
-    padding: 10px;
-    font-size: 14px;
-}
-/*Green
-==========================*/
-.ph-btn-green {
-
-    border-color: #3AC162;
-	background-color: #5FCF80;
+  .button-container {
+      flex-direction: column;
+  }
 
 }
-.ph-btn-green:hover, .ph-btn-green:focus, .ph-btn-green:active {
-    background-color: #4BC970;
-    border-color: #3AC162;    
+
+@media only screen and (max-height: 350px) {
+
+    .delete-button, .edit-button {
+        margin: 3px;
+        padding: 0px;
+        font-size: 12px;
+    }
+
+    .single-image-content {
+        font-size: 11px;
+    }
 }
 
-/*Blue
-==========================*/
-.ph-btn-blue {
+@media only screen and (max-width: 350px) {
 
-    border-color: #326E99;
-    background-color: #3F8ABF;
-}
+    .delete-button, .edit-button {
+        margin: 3px;
+        padding: 0px;
+        font-size: 12px;
+    }
 
-.ph-btn-blue:hover, .ph-btn-blue:focus, .ph-btn-blue:active {
-    background-color: #397CAC;
-    border-color: #326E99;   
-}
-
-/*Grey
-==========================*/
-.ph-btn-grey {
-
-     background-color: #C6CCD2;
-     border-color: #AAB3BB;
-}
-.ph-btn-grey:hover, .ph-btn-grey:focus, .ph-btn-grey:active {
-    background-color: #B8BFC7;
-    border-color: #AAB3BB; 
-}
-
-/*Red
-==========================*/
-.ph-btn-red {
-
-    background-color: #ED5A5A !important;
-    border-color: #EA4343 !important;
-
-}
-.ph-btn-red:hover, .ph-btn-red:focus, .ph-btn-red:active {
-    background: none repeat scroll 0 0 #EB4848 !important;
-    border-color: #E83131 !important;    
+    .single-image-content {
+        font-size: 11px;
+    }
 }

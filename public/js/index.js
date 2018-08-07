@@ -19,13 +19,23 @@ function getOnePicture(id, callback) {
   const queryData = {
     url: `/photos/${id}`,
     type: 'GET',
-    datatype: 'json',
+    dataType: 'json',
     contentType: 'application/json',
     success: callback,
   };
   $.ajax(queryData);
 }
 
+function deletePicture() {
+  const queryData = {
+    url: `/photos/${STATE.id}`,
+    type: 'DELETE',
+    dataType: 'json',
+    contentType: 'application/json',
+    success: console.log('successfully deleted'),
+  };
+  $.ajax(queryData);
+}
 function createPicture(postData, callback) {
   const queryData = {
     url: '/photos/post',
@@ -34,11 +44,6 @@ function createPicture(postData, callback) {
     contentType: 'application/json',
     data: JSON.stringify(postData),
     success: callback,
-    error(xhr, ajaxOptions, thrownError) {
-      alert(xhr.status);
-      alert(xhr.responseText);
-      alert(thrownError);
-    },
   };
   $.ajax(queryData);
 }
@@ -90,8 +95,8 @@ function watchPostButton() {
 function watchPostFormSubmit() {
   $('#create-photo-post-form').submit((event) => {
     event.preventDefault();
-    STATE.largePicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_fit,h_500,o_100,q_100,w_400/${STATE.photo}`
-    STATE.smallPicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_pad,h_375,o_100,q_100,w_375/${STATE.photo}`
+    STATE.largePicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_fit,h_500,o_100,q_100,w_400/${STATE.photo}`;
+    STATE.smallPicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_pad,h_375,o_100,q_100,w_375/${STATE.photo}`;
     const postData = {
       smallPicture: STATE.smallPicture,
       largePicture: STATE.largePicture,
@@ -101,6 +106,7 @@ function watchPostFormSubmit() {
     });
     console.log(postData);
     createPicture(postData, getAndDisplayPictures);
+    $('.photo-box-screen-overlay').empty().fadeOut(500);
   });
 }
 
@@ -156,7 +162,7 @@ function renderUpdateForm(entry) {
   viewportChecker();
   if (STATE.viewportWidth > 800 && STATE.viewportHeight > 680) {
     return `
-    <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+    <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="form-container">
     <div class="error-container"></div>
       <div class="single-photo-container">
@@ -175,7 +181,7 @@ function renderUpdateForm(entry) {
     `;
   }
   return `
-  <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
   <div class="form-container">
     <div class="single-photo-container">
       <img class="indv-pic" src="${entry.smallPicture}">
@@ -200,7 +206,8 @@ function watchUploadWidget() {
       cloud_name: 'dljvx3nbw',
       upload_preset: 'phlaser_',
     },
-    (error, result) => { STATE.photo = result[0].path;
+    (error, result) => {
+      STATE.photo = result[0].path;
       $('.image-upload-success').html('<h4>image upload successful!</h4>');
     });
   });
@@ -231,7 +238,7 @@ function displayPostForm() {
 
 function renderPostForm() {
   return `
-  <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="form-container">
       <form id="create-photo-post-form" action="#">
       <a href="#" id="upload_widget_opener" class="ph-btn-green ph-button form-button">Upload image</a>  
@@ -273,6 +280,7 @@ function displayPicture(data) {
   const pictureBox = renderPicture(data);
   $('.photo-box-screen-overlay').html(pictureBox).fadeIn(500);
   watchUpdateFormSubmit();
+  watchDeleteButton();
 }
 
 function viewportChecker() {
@@ -284,9 +292,7 @@ function renderPicture(entry) {
   viewportChecker();
   if (STATE.viewportWidth > 800 && STATE.viewportHeight > 680) {
     return `
-    <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
-    <button type="button" class="edit-button">edit</button>
-    <button type="button" class="delete-button ph-btn-red ph-button form-button">delete post</button>
+    <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="photo-box-screen">
       <div class="single-photo-container">
         <img class="indv-pic" src="${entry.largePicture}">
@@ -297,12 +303,15 @@ function renderPicture(entry) {
         <li>Date: ${entry.date}</li>
         <li>${entry.description}</li>
       </ul>
+      <div class="button-container">
+      <button type="button" class="edit-button ph-btn-grey ph-button">edit post</button>
+      <button type="button" class="delete-button ph-btn-red ph-button">delete post</button>
+      </div>
     </div>
     `;
   }
   return `
-    <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
-    <button type="button" class="edit-button">edit</button>
+    <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="photo-box-screen">
       <div class="single-photo-container">
         <img class="indv-pic" src="${entry.smallPicture}">
@@ -313,14 +322,56 @@ function renderPicture(entry) {
         <li>Date: ${entry.date}</li>
         <li>${entry.description}</li>
       </ul>
+      <div class="button-container">
+      <button type="button" class="edit-button ph-btn-grey ph-button">edit post</button>
+      <button type="button" class="delete-button ph-btn-red ph-button form-button">delete post</button>
+      </div>
     </div>
+    
     `;
 }
 
+function watchDeleteButton() {
+  $('.delete-button').click((event) => {
+    event.preventDefault();
+    displayDeletePrompt();
+  });
+}
+
+function displayDeletePrompt() {
+  const deletePromptBox = renderDeletePrompt();
+  $('.photo-box-screen-overlay').html(deletePromptBox).fadeIn(500);
+  console.log(STATE.id);
+  watchDoNotDeleteButton();
+  watchYesDeleteButton();
+}
+
+function renderDeletePrompt() {
+  return `<div class="delete-prompt-box"> Are you sure you want to delete?
+  <button type="button" class="yes-delete-button ph-btn-red ph-button">Yes</button>
+      <button type="button" class="do-not-delete-button ph-btn-blue ph-button">No</button>
+      </div>
+  `;
+}
 function getAndDisplayPictures() {
   getPictures(displayPictures);
 }
 
+function watchYesDeleteButton() {
+  $('.yes-delete-button').click((event) => {
+    event.preventDefault();
+    deletePicture();
+    $('.photo-box-screen-overlay').empty().fadeOut(500);
+  });
+}
+
+function watchDoNotDeleteButton() {
+  $('.do-not-delete-button').click((event) => {
+    event.preventDefault();
+    window.location.reload(true);
+    $('.photo-box-screen-overlay').empty().fadeOut(500);
+  });
+}
 $.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true });
 
 function loadPage() {
