@@ -78,12 +78,11 @@ function watchExitButton() {
     $('.photo-box-screen-overlay').empty().fadeOut(500);
   });
 }
-let upload;
+
 function watchPostButton() {
   $('nav').on('click', '.post-button', (event) => {
     event.preventDefault();
     displayPostForm();
-    // upload = new FileUploadWithPreview('astroUpload');
     watchUploadWidget();
   });
 }
@@ -200,9 +199,6 @@ function watchUploadWidget() {
     cloudinary.openUploadWidget({
       cloud_name: 'dljvx3nbw',
       upload_preset: 'phlaser_',
-      // form: '#create-photo-post-form',
-      // field_name: 'photo',
-      // thumbnails: '.photo-slot',
     },
     (error, result) => { STATE.photo = result[0].path;
       $('.image-upload-success').html('<h4>image upload successful!</h4>');
@@ -210,22 +206,22 @@ function watchUploadWidget() {
   });
 }
 
-function watchUpload() {
-  $('.cloudinary-fileupload').bind('cloudinarydone', (e, data) => {
-    $('.preview').html(
-      $.cloudinary.imageTag(data.result.public_id,
-        {
-          format: data.result.format,
-          version: data.result.version,
-          crop: 'scale',
-          width: 200,
-        }),
-    );
-    $('.image_public_id').val(data.result.public_id);
-    console.log(data.result.public_id);
-    return true;
-  });
-}
+// function watchUpload() {
+//   $('.cloudinary-fileupload').bind('cloudinarydone', (e, data) => {
+//     $('.preview').html(
+//       $.cloudinary.imageTag(data.result.public_id,
+//         {
+//           format: data.result.format,
+//           version: data.result.version,
+//           crop: 'scale',
+//           width: 200,
+//         }),
+//     );
+//     $('.image_public_id').val(data.result.public_id);
+//     console.log(data.result.public_id);
+//     return true;
+//   });
+// }
 
 function displayPostForm() {
   const formPost = renderPostForm();
@@ -290,6 +286,7 @@ function renderPicture(entry) {
     return `
     <button type="button" class="exit-button"><img src="pics/icon.png" alt="exit"></button>
     <button type="button" class="edit-button">edit</button>
+    <button type="button" class="delete-button ph-btn-red ph-button form-button">delete post</button>
     <div class="photo-box-screen">
       <div class="single-photo-container">
         <img class="indv-pic" src="${entry.largePicture}">
@@ -332,7 +329,6 @@ function loadPage() {
   watchExitButton();
   watchPostButton();
   watchUpdateButton();
-  watchUpload();
 }
 
 $(loadPage);

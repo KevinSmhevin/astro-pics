@@ -59,7 +59,7 @@ router.post('/post', (req, res) => {
   const day = today.getDate();
   const month = today.getMonth();
   const year = today.getFullYear();
-  let date = `${month}/${day}/${year}`
+  const date = `${month}/${day}/${year}`;
   photoPost.create({
     title: req.body.title,
     smallPicture: req.body.smallPicture,
@@ -123,5 +123,11 @@ router.put('/:id', (req, res) => {
     }).catch((err) => {
       console.error(err.message);
     });
+});
+
+router.delete('/:id', (req, res) => {
+  photoPost.findByIdAndRemove(req.params.id)
+    .then(post => res.status(204).end())
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 module.exports = { router };
