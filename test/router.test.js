@@ -1,5 +1,6 @@
 /* eslint prefer-arrow-callback: "off", func-names: "off" */
 
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const faker = require('faker');
@@ -18,13 +19,18 @@ function tearDownDb() {
 }
 
 function generatePhotoPostData() {
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth();
+  const year = today.getFullYear();
+  const date = `${month}/${day}/${year}`;
   return {
     title: faker.name.title(),
     smallPicture: faker.image.nightlife(),
     largePicture: faker.image.nightlife(),
     author: faker.name.firstName(),
     description: faker.lorem.sentence(),
-    date: faker.date.recent(),
+    date,
   };
 }
 
@@ -110,4 +116,47 @@ describe('Photo Post API resource', function () {
         });
     });
   });
+  describe('POST endpoint', () => {
+    it('should create a new post', () => {
+      const newPhotoPost = generatePhotoPostData();
+
+      return chai.request(app)
+        .post('/photos/post')
+        .send(newPhotoPost)
+        .then(function (res) {
+          expect(res).to.have.status(201);
+          expect(res).to.be.json;
+          expect(res.body).to.be.a('object');
+          expect(res.body).to.include.keys(
+            'id', 'author', 'description', 'smallPicture', 'largePicture', 'date');
+          expect(res.body.id).to.not.be.null;
+          expect(res.body.title).to.equal(newPhotoPost.title);
+          expect(res.body.author).to.equal(newPhotoPost.author);
+          expect(res.body.description).to.equal(newPhotoPost.description);
+          expect(res.body.smallPicture).to.equal(newPhotoPost.smallPicture);
+          expect(res.body.largePicture).to.equal(newPhotoPost.largePicture);
+          expect(res.body.date).to.equal(newPhotoPost.date);
+          return photoPost.findById(res.body.id);
+        })
+        .then(function (post) {
+          expect(post.author).to.equal(newPhotoPost.author);
+          expect(post.title).to.equal(newPhotoPost.title);
+          expect(post.description).to.equal(newPhotoPost.description);
+          expect(post.smallPicture).to.equal(newPhotoPost.smallPicture);
+          expect(post.largePicture).to.equal(newPhotoPost.largePicture);
+          expect(post.date).to.equal(newPhotoPost.date);
+        });
+    });
+  });
 });
+// describe('DELETE endpoint', function() {
+//   it('should delete a post by ID', function () {
+//     let post;
+//     return photoPost
+//     .findOne()
+//     .then(function(_post) {
+//       post = _post;
+//       return chai.request(app).delete(`/`)
+//     })
+//   })
+// })

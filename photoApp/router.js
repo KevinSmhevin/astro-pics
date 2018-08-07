@@ -55,16 +55,24 @@ router.post('/post', (req, res) => {
       return res.status(400).send(message);
     }
   }
-
+  const today = new Date();
+  const day = today.getDate();
+  const month = today.getMonth();
+  const year = today.getFullYear();
+  let date = `${month}/${day}/${year}`
   photoPost.create({
     title: req.body.title,
     smallPicture: req.body.smallPicture,
     largePicture: req.body.largePicture,
     author: req.body.author,
     description: req.body.description,
-    date: 'today date',
-  });
-  return res.status(201).json({message: 'post created!'});
+    date,
+  })
+    .then(post => res.status(201).json(post.serialize()))
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' });
+    });
 });
 
 router.put('/:id', (req, res) => {
