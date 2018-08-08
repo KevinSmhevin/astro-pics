@@ -70,7 +70,7 @@ function getAndDisplayPicture(id) {
 }
 
 function watchPictureBoxes() {
-  $('.main-container').on('click', '.image-box', (event) => {
+  $('.photo-container').on('click', '.image-box', (event) => {
     event.preventDefault();
     STATE.id = $(event.currentTarget).find('.photoId').text();
     getAndDisplayPicture(STATE.id);
