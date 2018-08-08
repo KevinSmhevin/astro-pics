@@ -228,11 +228,6 @@ li {
     font-weight: 600;	
 }
 
-.nav-button {
-    padding: 20px;
-    font-size: 15px; 
-}
-
 .form-button {
     margin: 15px;
     padding: 10px;
@@ -245,6 +240,25 @@ li {
     font-size: 14px;
 }
 
+.login-button, .sign-up-button, .log-out-button {
+    margin: 10px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+.loginInfo {
+    color: blue;
+}
+
+nav {
+    width: 80%;
+}
+.login-sign-up-button, .post-button {
+    padding: 15px;
+    font-size: 14px;
+}
+
+
 .do-not-delete-button, .yes-delete-button {
     margin: 15px;
     padding: 5px 20px 5px 20px;
@@ -255,6 +269,50 @@ li {
     background-color: #C6CCD2;
     opacity: 0.95;
     padding: 5px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#login-form {
+    border: 3px solid #ED5A5A;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 20px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#sign-up-form {
+    border: 3px solid #3F8ABF;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 20px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 25%;
+}
+
+.success-sign-up-window {
+    border: 3px solid #3F8ABF;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 20px;
     border-radius: 5px;
     position: fixed;
     top: 50%;
@@ -366,7 +424,7 @@ li {
     .logo {
         width: 30%;
     }
-    .main-container {
+    .photo-container {
         width: 50%;
     }
     .row {

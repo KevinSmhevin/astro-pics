@@ -4,6 +4,34 @@ const STATE = {
   id: '',
 };
 
+$.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true });
+
+function signUpRequest(userInfo, callback) {
+  const queryData = {
+    url: '/api/users/register',
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(userInfo),
+    success: callback,
+    error(err) {
+      console.log(err);
+    },
+  };
+  $.ajax(queryData);
+}
+
+function loginRequest(userInfo, callback) {
+  const queryData = {
+    url: '/api/auth/login',
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify(userInfo),
+    success: callback,
+  };
+  $.ajax(queryData);
+}
 function getPictures(callback) {
   const queryData = {
     url: '/photos/all',
@@ -362,14 +390,177 @@ function watchDoNotDeleteButton() {
     $('.photo-box-screen-overlay').empty().fadeOut(500);
   });
 }
-$.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true });
+
+function watchLoginButton() {
+  $('nav').on('click', '.login-sign-up-button', (event) => {
+    event.preventDefault();
+    displayLoginWindow();
+  });
+}
+
+function displayLoginWindow() {
+  const loginWindow = renderLoginWindow();
+  $('.photo-box-screen-overlay').html(loginWindow).fadeIn(500);
+  watchSignUpButton();
+  watchLoginSubmit();
+}
+
+function renderLoginWindow() {
+  return `
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
+  <div class="login-window">
+    <form id="login-form" action="#">
+      <h4>Login</h4><br>
+      <label for="username">Username</label>
+      <input type="text" name="username" required/>
+      <label for="password">Password</label>
+      <input type="text" name="password" required/>
+      <button type="submit" form="login-form" class="ph-btn-blue ph-button login-button">Login</button>
+      <p>Not a member? Sign up! </p>
+      <button type="button" class="ph-btn-blue ph-button sign-up-button">Sign Up</button>
+    </form>
+  </div>
+  `;
+}
+
+function watchLoginSubmit() {
+  // $('.photo-box-screen-overlay').on('submit', '#login-form', (event) => {
+  $('#login-form').submit((event) => {
+    event.preventDefault();
+    const userInfo = {};
+    $(event.currentTarget).serializeArray().forEach((attr) => {
+      userInfo[attr.name] = attr.value;
+    });
+    STATE.username = userInfo.username;
+    loginRequest(userInfo, loginSuccessful);
+  });
+}
+
+function loginSuccessful(data) {
+  console.log(data);
+  STATE.authToken = data.authToken;
+  displayLoginSuccess();
+}
+
+function displayLoginSuccess() {
+  const successBox = renderLogInSuccessBox();
+  $('.photo-box-screen-overlay').html(successBox).fadeIn(500).fadeOut(4000);
+}
+
+function watchSignUpButton() {
+  $('.sign-up-button').click((event) => {
+    event.preventDefault();
+    displaySignUpForm();
+  });
+}
+
+function displaySignUpForm() {
+  const signUpForm = renderSignUpForm();
+  $('.photo-box-screen-overlay').html(signUpForm).fadeIn(500);
+  watchSignUpSubmit();
+}
+
+function renderSignUpForm() {
+  return `
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
+  <div class="sign-up-window">
+  <form id="sign-up-form" action="#">
+  <h4>Sign Up Form</h4><br>
+  <label for="email">Email</label>
+  <input type="email" name="email" required/>
+  <label for="username">Username</label>
+  <input type="text" name="username" required/>
+  <label for="password">Password</label>
+  <input type="password" name="password" required/>
+  <label for="firstName">First Name</label>
+  <input type="text" name="firstName" required/>
+  <label for="lastName">Last Name</label>
+  <input type="text" name="lastName" required/>
+  <button type="submit" class="ph-btn-blue ph-button sign-up-button">Sign Up</button>
+  </form>
+  <div>
+  `;
+}
+
+function watchSignUpSubmit() {
+  $('#sign-up-form').submit((event) => {
+  // $('.photo-box-screen-overlay').on('submit', '#sign-up-form', (event) => {
+    event.preventDefault();
+    const userInfo = {};
+    $(event.currentTarget).serializeArray().forEach((attr) => {
+      userInfo[attr.name] = attr.value;
+    });
+    signUpRequest(userInfo, displaySuccessSignUpBox);
+  });
+}
+
+function displaySuccessSignUpBox() {
+  const successBox = renderSuccessBox();
+  $('.photo-box-screen-overlay').html(successBox).fadeIn(500).fadeOut(4000);
+}
+
+function renderSuccessBox() {
+  getAndDisplayPictures();
+  return `
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
+  <div class="success-sign-up-window">
+  <h4> Your account has successfully been created! </h4>
+  </div>
+  `;
+}
+
+function renderLogInSuccessBox() {
+  getAndDisplayPictures();
+  displayUserHome();
+  return `
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
+  <div class="success-sign-up-window">
+  <h4> Successfully Logged In! </h4>
+  </div>
+  `;
+}
+
+function displayUserHome() {
+  const userHome = renderUserHome();
+  $('nav').empty().html(userHome);
+}
+
+function renderUserHome() {
+  watchLogOutButton();
+  watchPostButton();
+  if (STATE.authToken) {
+    return `
+      <div>
+        <span class="loginInfo">Logged in as ${STATE.username}</span>
+        <button type="button" class="ph-btn-grey ph-button log-out-button">Log Out</button>
+      </div>
+      <button type="button" class="ph-button ph-btn-blue post-button">Post</button>
+      `;
+  }
+  return `
+      <button type="button" class="ph-btn-grey ph-button login-sign-up-button nav-button">Login/Sign Up</button>
+      `;
+}
+
+function watchLogOutButton() {
+  $('nav').on('click', '.log-out-button', (event) => {
+  // $('.log-out-button').click((event) => {
+    event.preventDefault();
+    STATE.authToken = null;
+    STATE.username = null;
+    displayUserHome();
+    getAndDisplayPictures();
+    console.log('hello');
+  });
+}
+
 
 function loadPage() {
   getAndDisplayPictures();
   watchPictureBoxes();
   watchExitButton();
-  watchPostButton();
   watchUpdateButton();
+  watchLoginButton();
 }
 
 $(loadPage);
