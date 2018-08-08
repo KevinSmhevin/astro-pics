@@ -4,10 +4,8 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 const cloudinary = require('cloudinary');
-// const multer = require('multer');
 const { photoPost } = require('./models');
 
-// const upload = multer({ dest: 'uploads/' });
 
 router.use(bodyParser.json());
 
@@ -116,8 +114,8 @@ router.put('/:id', (req, res) => {
 
       photoPost
         .findByIdAndUpdate(req.params.id, { $set: toUpdate }, { new: true })
-        .then((post) => {
-          res.status(200).json(post);
+        .then((_post) => {
+          res.status(200).json(_post);
         })
         .catch(err => res.status(500).json({ message: 'Internal server error' }));
     }).catch((err) => {

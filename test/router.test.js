@@ -78,11 +78,11 @@ describe('Photo Post API resource', function () {
       let res;
       return photoPost
         .findOne()
-        .then(function (post) {
+        .then((post) => {
           const { id } = post;
           return chai.request(app)
             .get(`/photos/${id}`)
-            .then(function (_res) {
+            .then((_res) => {
               res = _res;
               expect(res).to.have.status(200);
               expect(res.body).to.be.a('object');
@@ -99,18 +99,18 @@ describe('Photo Post API resource', function () {
       };
       return photoPost
         .findOne()
-        .then(function (post) {
+        .then((post) => {
           updateData.id = post.id;
           return chai.request(app)
             .put(`/photos/${post.id}`)
             .send(updateData);
         })
-        .then(function (res) {
+        .then((res) => {
           expect(res).to.have.status(200);
 
           return photoPost.findById(updateData.id);
         })
-        .then(function (post) {
+        .then((post) => {
           expect(post.title).to.equal(updateData.title);
           expect(post.description).to.equal(updateData.description);
         });
@@ -128,7 +128,8 @@ describe('Photo Post API resource', function () {
           expect(res).to.be.json;
           expect(res.body).to.be.a('object');
           expect(res.body).to.include.keys(
-            'id', 'author', 'description', 'smallPicture', 'largePicture', 'date');
+            'id', 'author', 'description', 'smallPicture', 'largePicture', 'date',
+          );
           expect(res.body.id).to.not.be.null;
           expect(res.body.title).to.equal(newPhotoPost.title);
           expect(res.body.author).to.equal(newPhotoPost.author);
@@ -138,7 +139,7 @@ describe('Photo Post API resource', function () {
           expect(res.body.date).to.equal(newPhotoPost.date);
           return photoPost.findById(res.body.id);
         })
-        .then(function (post) {
+        .then((post) => {
           expect(post.author).to.equal(newPhotoPost.author);
           expect(post.title).to.equal(newPhotoPost.title);
           expect(post.description).to.equal(newPhotoPost.description);
@@ -148,15 +149,22 @@ describe('Photo Post API resource', function () {
         });
     });
   });
+  describe('DELETE endpoint', () => {
+    it('should delete a post by ID', () => {
+      let post;
+      return photoPost
+        .findOne()
+        .then((_post) => {
+          post = _post;
+          return chai.request(app).delete(`/photos/${post.id}`);
+        })
+        .then((res) => {
+          expect(res).to.have.status(204);
+          return photoPost.findById(photoPost.id);
+        })
+        .then((_post) => {
+          expect(_post).to.be.null;
+        });
+    });
+  });
 });
-// describe('DELETE endpoint', function() {
-//   it('should delete a post by ID', function () {
-//     let post;
-//     return photoPost
-//     .findOne()
-//     .then(function(_post) {
-//       post = _post;
-//       return chai.request(app).delete(`/`)
-//     })
-//   })
-// })

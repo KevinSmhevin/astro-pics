@@ -26,13 +26,13 @@ function getOnePicture(id, callback) {
   $.ajax(queryData);
 }
 
-function deletePicture() {
+function deletePicture(callback) {
   const queryData = {
     url: `/photos/${STATE.id}`,
     type: 'DELETE',
     dataType: 'json',
     contentType: 'application/json',
-    success: console.log('successfully deleted'),
+    success: callback,
   };
   $.ajax(queryData);
 }
@@ -165,9 +165,7 @@ function renderUpdateForm(entry) {
     <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="form-container">
     <div class="error-container"></div>
-      <div class="single-photo-container">
         <img class="indv-pic" src="${entry.largePicture}">
-      </div>
       <form id="update-form" action="#">
       <input type="hidden" name="id" value="${entry.id}"/>
       <label for="title">Title</label>
@@ -183,9 +181,7 @@ function renderUpdateForm(entry) {
   return `
   <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
   <div class="form-container">
-    <div class="single-photo-container">
       <img class="indv-pic" src="${entry.smallPicture}">
-    </div>
     <form id="update-form" action="#">
     <input type="hidden" name="id" value="${entry.id}"/>
     <label for="title">Title</label>
@@ -294,9 +290,7 @@ function renderPicture(entry) {
     return `
     <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="photo-box-screen">
-      <div class="single-photo-container">
         <img class="indv-pic" src="${entry.largePicture}">
-      </div>
       <ul class="single-image-content">
         <li>Title: ${entry.title}</li>
         <li>Author: ${entry.author}</li>
@@ -313,9 +307,7 @@ function renderPicture(entry) {
   return `
     <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="photo-box-screen">
-      <div class="single-photo-container">
         <img class="indv-pic" src="${entry.smallPicture}">
-      </div>
       <ul class="single-image-content">
         <li>Title: ${entry.title}</li>
         <li>Author: ${entry.author}</li>
@@ -327,7 +319,6 @@ function renderPicture(entry) {
       <button type="button" class="delete-button ph-btn-red ph-button form-button">delete post</button>
       </div>
     </div>
-    
     `;
 }
 
@@ -360,7 +351,7 @@ function getAndDisplayPictures() {
 function watchYesDeleteButton() {
   $('.yes-delete-button').click((event) => {
     event.preventDefault();
-    deletePicture();
+    deletePicture(getAndDisplayPictures);
     $('.photo-box-screen-overlay').empty().fadeOut(500);
   });
 }
@@ -368,7 +359,6 @@ function watchYesDeleteButton() {
 function watchDoNotDeleteButton() {
   $('.do-not-delete-button').click((event) => {
     event.preventDefault();
-    window.location.reload(true);
     $('.photo-box-screen-overlay').empty().fadeOut(500);
   });
 }
