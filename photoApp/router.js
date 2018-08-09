@@ -1,6 +1,8 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 const cloudinary = require('cloudinary');
@@ -8,6 +10,8 @@ const { photoPost } = require('./models');
 
 
 router.use(bodyParser.json());
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 cloudinary.config({
   cloud_name: 'dljvx3nbw',
@@ -43,7 +47,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/post', (req, res) => {
+router.post('/post', jwtAuth, (req, res) => {
   const requiredFields = ['title', 'smallPicture', 'largePicture', 'author', 'description'];
   for (let i = 0; i < requiredFields.length; i++) {
     const field = requiredFields[i];
@@ -73,7 +77,7 @@ router.post('/post', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', jwtAuth, (req, res) => {
   console.log('hello server side');
   // ensure that the id in the request path and the one in request body match
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
@@ -85,15 +89,13 @@ router.put('/:id', (req, res) => {
   }
   photoPost
     .findById(req.params.id)
-    .exec()
     .then((post) => {
-    //  if (post.userName !== req.user.username) {
-    //    const message = "That post doesn't belong to you"
-    //    console.error(message);
-    //    return res.status(401).json({ message: message });
-    // console.log('hello')
-    // }
-      console.log('hello');
+      if (post.author !== req.user.username) {
+        console.log(post.author +'--------->' + req.user.username)
+        const message = "That post doesn't belong to you";
+        console.error(message);
+        return res.status(401).json({ message });
+      }
       const toUpdate = {};
       const updateableFields = ['title', 'description'];
 

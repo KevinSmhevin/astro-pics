@@ -2,9 +2,18 @@ const STATE = {
   viewportHeight: 0,
   viewportWidth: 0,
   id: '',
+  viewport: '',
 };
 
 $.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true });
+
+function mobileViewportChecker() {
+  STATE.viewportWidth = $(window).width();
+  STATE.viewportHeight = $(window).height();
+  if (STATE.viewportwidth < 800 && STATE.viewportHeight < 680) {
+    STATE.viewport = 'mobile';
+  }
+}
 
 function signUpRequest(userInfo, callback) {
   const queryData = {
@@ -60,6 +69,9 @@ function deletePicture(callback) {
     type: 'DELETE',
     dataType: 'json',
     contentType: 'application/json',
+    beforeSend(xhr) {
+      xhr.setRequestHeader('Authorization', `Bearer ${STATE.authChecker}`);
+    },
     success: callback,
   };
   $.ajax(queryData);
@@ -70,6 +82,9 @@ function createPicture(postData, callback) {
     type: 'POST',
     dataType: 'json',
     contentType: 'application/json',
+    beforeSend(xhr) {
+      xhr.setRequestHeader('Authorization', `Bearer ${STATE.authChecker}`);
+    },
     data: JSON.stringify(postData),
     success: callback,
   };
@@ -82,6 +97,9 @@ function updateContent(updateData, callback) {
     type: 'PUT',
     dataType: 'json',
     contentType: 'application/json',
+    beforeSend(xhr) {
+      xhr.setRequestHeader('Authorization', `Bearer ${STATE.authChecker}`);
+    },
     data: JSON.stringify(updateData),
     success: callback,
     error(xhr, ajaxOptions, thrownError) {
@@ -92,6 +110,52 @@ function updateContent(updateData, callback) {
   };
   $.ajax(queryData);
 }
+function renderMobilePicture(entry) {
+  checkAuthToken();
+  getUsername();
+  if (STATE.authChecker && (STATE.username === STATE.originalArtist)) {
+    return `
+    <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
+    <div class="photo-box-screen">
+        <img class="indv-pic" src="${entry.smallPicture}">
+      <ul class="single-image-content">
+        <li>Title: ${entry.title}</li>
+        <li>Author: ${entry.author}</li>
+        <li>Date: ${entry.date}</li>
+        <li>${entry.description}</li>
+      </ul>
+      <div class="button-container">
+      <button type="button" class="edit-button ph-btn-grey ph-button">edit post</button>
+      <button type="button" class="delete-button ph-btn-red ph-button form-button">delete post</button>
+      </div>
+    </div>
+    `;
+  } 
+  return `
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
+    <div class="photo-box-screen">
+        <img class="indv-pic" src="${entry.smallPicture}">
+      <ul class="single-image-content">
+        <li>Title: ${entry.title}</li>
+        <li>Author: ${entry.author}</li>
+        <li>Date: ${entry.date}</li>
+        <li>${entry.description}</li>
+      </ul>
+      </div>
+  `;
+}
+
+function displayPicture(data) {
+  mobileViewportChecker();
+  if (STATE.viewport === 'mobile') {
+    const mobilePictureBox = renderMobilePicture(data);
+    $('.photo-box-screen-overlay').html(mobilePictureBox).fadeIn(500);
+  }
+  const pictureBox = renderPicture(data);
+  $('.photo-box-screen-overlay').html(pictureBox).fadeIn(500);
+  watchUpdateFormSubmit();
+  watchDeleteButton();
+}
 
 function getAndDisplayPicture(id) {
   getOnePicture(id, displayPicture);
@@ -101,6 +165,7 @@ function watchPictureBoxes() {
   $('.photo-container').on('click', '.image-box', (event) => {
     event.preventDefault();
     STATE.id = $(event.currentTarget).find('.photoId').text();
+    STATE.originalArtist = $(event.currentTarget).find('.author').text();
     getAndDisplayPicture(STATE.id);
   });
 }
@@ -123,7 +188,7 @@ function watchPostButton() {
 function watchPostFormSubmit() {
   $('#create-photo-post-form').submit((event) => {
     event.preventDefault();
-    STATE.largePicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_fit,h_500,o_100,q_100,w_400/${STATE.photo}`;
+    STATE.largePicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_pad,h_550,o_100,q_100,w_550/${STATE.photo}`;
     STATE.smallPicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_pad,h_375,o_100,q_100,w_375/${STATE.photo}`;
     const postData = {
       smallPicture: STATE.smallPicture,
@@ -175,6 +240,12 @@ function watchUpdateButton() {
 }
 
 function displayUpdateForm(data) {
+  mobileViewportChecker();
+  if (STATE.viewport === 'mobile') {
+    $('.photo-box-screen-overlay').empty();
+    const mobileUpdateForm = renderMobileUpdateForm(data);
+    $('.photo-box-screen-overlay').html(mobileUpdateForm);
+  }
   $('.photo-box-screen-overlay').empty();
   const updateForm = renderUpdateForm(data);
   $('.photo-box-screen-overlay').html(updateForm);
@@ -187,9 +258,7 @@ function displayUpdatedPicture() {
 }
 
 function renderUpdateForm(entry) {
-  viewportChecker();
-  if (STATE.viewportWidth > 800 && STATE.viewportHeight > 680) {
-    return `
+  return `
     <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="form-container">
     <div class="error-container"></div>
@@ -205,7 +274,9 @@ function renderUpdateForm(entry) {
       </form>
     </div>
     `;
-  }
+}
+
+function renderMobileUpdateForm() {
   return `
   <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
   <div class="form-container">
@@ -261,6 +332,7 @@ function displayPostForm() {
 }
 
 function renderPostForm() {
+  getUsername();
   return `
   <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="form-container">
@@ -271,8 +343,8 @@ function renderPostForm() {
       <input class="photo-form-field" type="text" name="title"/>
       <label for="description">description</label>
       <input class="photo-form-field" type="text" name="description"/>
-      <label for="author">Photographer</label>
-      <input class="photo-form-field" type="text" name="author"/>
+      <label for="author" hidden>Photographer</label>
+      <input class="photo-form-field" type="text" name="author"/ value=${STATE.username} hidden>
       <label for="button"></label>
       <button type="submit" form="create-photo-post-form" class="ph-btn-grey ph-button form-button" value="submit">Post</button>
       </form>
@@ -280,7 +352,9 @@ function renderPostForm() {
     </div>
   `;
 }
-
+function getUsername() {
+  STATE.username = localStorage.getItem('username');
+}
 function renderPictures(entry) {
   return `
         <div class="box">
@@ -300,21 +374,14 @@ function displayPictures(data) {
   $('.row').html(pictureBoxes);
 }
 
-function displayPicture(data) {
-  const pictureBox = renderPicture(data);
-  $('.photo-box-screen-overlay').html(pictureBox).fadeIn(500);
-  watchUpdateFormSubmit();
-  watchDeleteButton();
-}
-
-function viewportChecker() {
-  STATE.viewportWidth = $(window).width();
-  STATE.viewportHeight = $(window).height();
+function checkAuthToken() {
+  STATE.authChecker = localStorage.getItem('authToken');
 }
 
 function renderPicture(entry) {
-  viewportChecker();
-  if (STATE.viewportWidth > 800 && STATE.viewportHeight > 680) {
+  checkAuthToken();
+  getUsername();
+  if (STATE.authChecker && (STATE.username === STATE.originalArtist)) {
     return `
     <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="photo-box-screen">
@@ -331,23 +398,18 @@ function renderPicture(entry) {
       </div>
     </div>
     `;
-  }
-  return `
-    <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
-    <div class="photo-box-screen">
-        <img class="indv-pic" src="${entry.smallPicture}">
-      <ul class="single-image-content">
-        <li>Title: ${entry.title}</li>
-        <li>Author: ${entry.author}</li>
-        <li>Date: ${entry.date}</li>
-        <li>${entry.description}</li>
-      </ul>
-      <div class="button-container">
-      <button type="button" class="edit-button ph-btn-grey ph-button">edit post</button>
-      <button type="button" class="delete-button ph-btn-red ph-button form-button">delete post</button>
-      </div>
-    </div>
-    `;
+  } return `
+  <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
+  <div class="photo-box-screen">
+      <img class="indv-pic" src="${entry.largePicture}">
+    <ul class="single-image-content">
+      <li>Title: ${entry.title}</li>
+      <li>Author: ${entry.author}</li>
+      <li>Date: ${entry.date}</li>
+      <li>${entry.description}</li>
+    </ul>
+  </div>
+  `;
 }
 
 function watchDeleteButton() {
@@ -360,7 +422,6 @@ function watchDeleteButton() {
 function displayDeletePrompt() {
   const deletePromptBox = renderDeletePrompt();
   $('.photo-box-screen-overlay').html(deletePromptBox).fadeIn(500);
-  console.log(STATE.id);
   watchDoNotDeleteButton();
   watchYesDeleteButton();
 }
@@ -373,6 +434,7 @@ function renderDeletePrompt() {
   `;
 }
 function getAndDisplayPictures() {
+  displayUserHome();
   getPictures(displayPictures);
 }
 
@@ -414,7 +476,7 @@ function renderLoginWindow() {
       <label for="username">Username</label>
       <input type="text" name="username" required/>
       <label for="password">Password</label>
-      <input type="text" name="password" required/>
+      <input type="password" name="password" required/>
       <button type="submit" form="login-form" class="ph-btn-blue ph-button login-button">Login</button>
       <p>Not a member? Sign up! </p>
       <button type="button" class="ph-btn-blue ph-button sign-up-button">Sign Up</button>
@@ -424,21 +486,23 @@ function renderLoginWindow() {
 }
 
 function watchLoginSubmit() {
-  // $('.photo-box-screen-overlay').on('submit', '#login-form', (event) => {
   $('#login-form').submit((event) => {
     event.preventDefault();
     const userInfo = {};
     $(event.currentTarget).serializeArray().forEach((attr) => {
       userInfo[attr.name] = attr.value;
     });
-    STATE.username = userInfo.username;
     loginRequest(userInfo, loginSuccessful);
   });
 }
 
 function loginSuccessful(data) {
   console.log(data);
-  STATE.authToken = data.authToken;
+  localStorage.setItem('authToken', data.authToken);
+  localStorage.setItem('username', data.username);
+  // console.log(`localStorage: -----> ${localStorage.authToken}`);
+  // console.log(`STATE: ------> ${STATE.authToken}`);
+  // console.log(`localStorage Username ----------> ${localStorage.username}`);
   displayLoginSuccess();
 }
 
@@ -484,7 +548,6 @@ function renderSignUpForm() {
 
 function watchSignUpSubmit() {
   $('#sign-up-form').submit((event) => {
-  // $('.photo-box-screen-overlay').on('submit', '#sign-up-form', (event) => {
     event.preventDefault();
     const userInfo = {};
     $(event.currentTarget).serializeArray().forEach((attr) => {
@@ -511,7 +574,6 @@ function renderSuccessBox() {
 
 function renderLogInSuccessBox() {
   getAndDisplayPictures();
-  displayUserHome();
   return `
   <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
   <div class="success-sign-up-window">
@@ -522,16 +584,17 @@ function renderLogInSuccessBox() {
 
 function displayUserHome() {
   const userHome = renderUserHome();
-  $('nav').empty().html(userHome);
+  $('nav').html(userHome).fadeIn(400);
 }
 
 function renderUserHome() {
   watchLogOutButton();
   watchPostButton();
-  if (STATE.authToken) {
+  checkAuthToken();
+  if (STATE.authChecker) {
     return `
       <div>
-        <span class="loginInfo">Logged in as ${STATE.username}</span>
+        <span class="loginInfo">Logged in as ${localStorage.username}</span>
         <button type="button" class="ph-btn-grey ph-button log-out-button">Log Out</button>
       </div>
       <button type="button" class="ph-button ph-btn-blue post-button">Post</button>
@@ -544,11 +607,9 @@ function renderUserHome() {
 
 function watchLogOutButton() {
   $('nav').on('click', '.log-out-button', (event) => {
-  // $('.log-out-button').click((event) => {
     event.preventDefault();
-    STATE.authToken = null;
-    STATE.username = null;
-    displayUserHome();
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('username');
     getAndDisplayPictures();
     console.log('hello');
   });
