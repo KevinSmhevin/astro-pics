@@ -91,7 +91,6 @@ router.put('/:id', jwtAuth, (req, res) => {
     .findById(req.params.id)
     .then((post) => {
       if (post.author !== req.user.username) {
-        console.log(post.author +'--------->' + req.user.username)
         const message = "That post doesn't belong to you";
         console.error(message);
         return res.status(401).json({ message });
@@ -125,7 +124,16 @@ router.put('/:id', jwtAuth, (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
+  photoPost
+    .findById(req.params.id)
+    .then((post) => {
+      if (post.author !== req.user.username) {
+        const message = "That post doesn't belong to you";
+        console.error(message);
+        return res.status(401).json({ message });
+      }
+    });
   photoPost.findByIdAndRemove(req.params.id)
     .then(post => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Internal server error Hello' }));

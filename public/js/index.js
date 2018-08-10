@@ -3,6 +3,7 @@ const STATE = {
   viewportWidth: 0,
   id: '',
   viewport: '',
+  error_1: '<div class="error-message">Incorrect Username or Password</div>',
 };
 
 $.cloudinary.config({ cloud_name: 'dljvx3nbw', secure: true });
@@ -13,6 +14,10 @@ function mobileViewportChecker() {
   if (STATE.viewportwidth < 800 && STATE.viewportHeight < 680) {
     STATE.viewport = 'mobile';
   }
+}
+
+function displayIncorrectLogin() {
+  $('.photo-box-screen-overlay').append(STATE.error_1);
 }
 
 function signUpRequest(userInfo, callback) {
@@ -38,6 +43,7 @@ function loginRequest(userInfo, callback) {
     contentType: 'application/json',
     data: JSON.stringify(userInfo),
     success: callback,
+    error: displayIncorrectLogin(),
   };
   $.ajax(queryData);
 }
@@ -593,11 +599,12 @@ function renderUserHome() {
   checkAuthToken();
   if (STATE.authChecker) {
     return `
-      <div>
-        <span class="loginInfo">Logged in as ${localStorage.username}</span>
+      <div class="menu-bar">
+      <span class="loginInfo">Logged in as ${localStorage.username}</span>
         <button type="button" class="ph-btn-grey ph-button log-out-button">Log Out</button>
       </div>
       <button type="button" class="ph-button ph-btn-blue post-button">Post</button>
+
       `;
   }
   return `
