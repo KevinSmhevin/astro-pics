@@ -99,7 +99,7 @@ li {
 
 .photo-box-screen-overlay {
     width: 100vw;
-    height: 100vh;
+    height: 200vh;
     position: fixed;
     top: 0;
     left: 0;
@@ -388,7 +388,7 @@ nav {
     flex-direction: column;
 }
 
-@media only screen and (max-width: 800px), screen and (max-height: 680px) {
+@media only screen and (max-width: 600px), screen and (max-height: 820px) {
 
     .logo {
         width: 75%;

@@ -118,7 +118,7 @@ router.put('/:id', jwtAuth, (req, res) => {
         .then((_post) => {
           res.status(200).json(_post);
         })
-        .catch(err => res.status(500).json({ message: 'Internal server error' }));
+        .catch(() => res.status(500).json({ message: 'Internal server error' }));
     }).catch((err) => {
       console.error(err.message);
     });

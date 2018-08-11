@@ -14,11 +14,9 @@ const { TEST_DATABASE_URL, JWT_SECRET } = require('../config.js');
 
 chai.use(chaiHttp);
 
-const email = 'example.user@example.com';
-const username = 'exampleUser';
-const password = 'examplePass';
-const firstName = 'Example';
-const lastName = 'User';
+const username = 'testUserName';
+const firstName = 'testName';
+const lastName = 'testerMcTest';
 
 function tearDownDb() {
   console.warn('Deleting Database');
@@ -143,7 +141,6 @@ describe('Photo Post API resource', function () {
         description: 'Updated Description--',
         artist: 'a modest guy',
       };
-      let hackerName = '';
       return photoPost
         .findOne()
         .then((post) => {
@@ -161,7 +158,6 @@ describe('Photo Post API resource', function () {
             },
           );
           updateData.id = post.id;
-          hackerName = post.username;
           return chai.request(app)
             .put(`/photos/${post.id}`)
             .set('Authorization', `Bearer ${token}`)
@@ -259,7 +255,6 @@ describe('Photo Post API resource', function () {
     });
     it('should not allow you delete a post that does not belong to you', () => {
       let post;
-      let hackerName;
       return photoPost
         .findOne()
         .then((_post) => {

@@ -15,6 +15,7 @@ app.use(express.json());
 // static files
 app.use(express.static('public'));
 
+
 const { DATABASE_URL, PORT } = require('./config');
 const { router: usersRouter } = require('./users/router');
 const { router: authRouter } = require('./auth/router');
@@ -46,6 +47,7 @@ app.get('/api/protected', jwtAuth, (req, res) => res.json({
 
 app.use('*', (req, res) => res.status(404).json({ message: 'Not Found' }));
 
+// server variable needed for runServer and closeServer
 let server;
 
 function runServer(databaseUrl, port = PORT) {
