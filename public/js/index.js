@@ -9,6 +9,8 @@ const STATE = {
   errorDelete: '<div class="error-message">This Post does not belong to you</div>',
   errorUpdate: '<div class="error-message">This Post does not belong to you</div>',
   errorGeneral: '<div class="error-message">Something went wrong</div>',
+  smallPicture: '',
+  largePicture: '',
 };
 
 // Global declaration for Cloudinary image uploader
@@ -29,7 +31,7 @@ function mobileViewportChecker() {
   STATE.viewportWidth = $(window).width();
   STATE.viewportHeight = $(window).height();
   console.log(`Width:${STATE.viewportWidth} <------> Height:${STATE.viewportHeight}`);
-  if (STATE.viewportwidth < 600 || STATE.viewportHeight < 820) {
+  if ((STATE.viewportWidth < 600 && STATE.viewportHeight < 820) || STATE.viewportHeight < 451) {
     STATE.viewport = 'mobile';
   }
   console.log(STATE.viewport);
@@ -153,9 +155,9 @@ function updateContent(updateData, callback) {
 // Rendering functions
 
 function renderPictures(entry) {
-  return `
+  return ` 
         <div class="box">
-        <article role="article" class="image-box">
+        <article role="article" class="image-box" tabindex="0">
           <img class="gal-pic" alt="${entry.title}" src ="${entry.smallPicture}">
                         <ul class="img-content">
                            <li><h4 class="img-title">${entry.title}</h4></li>
@@ -167,9 +169,10 @@ function renderPictures(entry) {
 }
 
 function renderMobilePicture(entry) {
-  checkAuthToken();
+  console.log('hello render');
   getUsername();
   if (STATE.authChecker && (STATE.username === STATE.originalArtist)) {
+    console.log('hello inside of render');
     return `
     <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
     <div class="photo-box-screen">
@@ -534,8 +537,8 @@ function watchUploadWidget() {
 function watchPostFormSubmit() {
   $('.photo-box-screen-overlay').on('submit', '#create-photo-post-form', (event) => {
     event.preventDefault();
-    STATE.largePicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_pad,h_550,o_100,q_100,w_550/${STATE.photo}`;
-    STATE.smallPicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_pad,h_375,o_100,q_100,w_375/${STATE.photo}`;
+    STATE.largePicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_fit,h_550,o_100,q_100,w_550/${STATE.photo}`;
+    STATE.smallPicture = `http://res.cloudinary.com/dljvx3nbw/image/upload/b_rgb:050605,bo_0px_solid_rgb:ffffff,c_lpad,h_375,o_100,q_100,w_375/${STATE.photo}`;
     const postData = {
       smallPicture: STATE.smallPicture,
       largePicture: STATE.largePicture,
@@ -598,7 +601,7 @@ function watchUpdateFormSubmit() {
 }
 
 function watchDeleteButton() {
-  $('.delete-button').click((event) => {
+  $('.photo-box-screen-overlay').on('click', '.delete-button', (event) => {
     event.preventDefault();
     displayDeletePrompt();
   });
