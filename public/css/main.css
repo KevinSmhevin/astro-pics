@@ -1,3 +1,4 @@
+/* global css  */
 * {
     box-sizing: border-box;
     -webkit-padding-start: 0px;
@@ -7,19 +8,15 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+/* general css  */
+
 body {
     color: white;
-    background: url('../pics/3132.jpg') bottom center fixed;
     opacity: 0.85;
 }
 
-h1 {
-    text-align: center;
-}
-
-.logo {
-    width: 25%;
-    border-radius: 5px;
+main {
+    background: url('../pics/3132.jpg') bottom center fixed;
 }
 
 nav {
@@ -29,6 +26,49 @@ nav {
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin: 5px;
+}
+
+/* <----- top section ----->  */
+
+.menu-bar {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    width: 25%;
+    border-radius: 5px;
+}
+
+.login-info {
+    color: blue;
+}
+
+
+/* <----- main  -----> */
+
+/* containers */
+
+.photo-box-screen-overlay {
+    width: 100vw;
+    height: 200vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .photo-container {
@@ -70,14 +110,6 @@ nav {
     list-style-type: none;
 }
   
-ul {
-    list-style-type: none;
-}
-
-li {
-    margin: 5px;
-}
-  
 .box {
     width: 30%;
     border-radius: 5px;
@@ -97,29 +129,16 @@ li {
     border-color: #326E99;
 }
 
-.photo-box-screen-overlay {
-    width: 100vw;
-    height: 200vh;
-    position: fixed;
-    top: 0;
+.form-container {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 25vh;
     left: 0;
-    display: none;
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.exit-button {
-    margin: 5px;
-    padding: 5px;
-    border: 0;
-    background: transparent;
-    position: fixed;
-    top: 0;
     right: 0;
-}
-
-.exit-button:hover {
-    cursor: pointer;
-    border: 1px dashed darkgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .photo-box-screen {
@@ -135,17 +154,24 @@ li {
     text-align: center;
 }
 
-.form-container {
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    top: 25vh;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.single-image-content > li {
+    margin: 15px;
 }
+
+.photo-form-field {
+    width: 50%;
+    height: 25px;
+    border-radius: 5px;
+    margin-top: 2px;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* forms */
 
 #create-photo-post-form {
     border: 3px solid #326E99;
@@ -160,29 +186,6 @@ li {
     align-items: center;
 }
 
-.custom-file-container {
-    text-align: center;
-    width: 90%;
-    margin: 0;
-}
-
-.custom-file-container__image-preview {
-    padding: 0;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.photo-form-field {
-    width: 50%;
-    height: 25px;
-    border-radius: 5px;
-    margin-top: 2px;
-}
-
-.custom-file-container__custom-file {
-    text-align: left;
-}
-
 #update-form {
     padding: 5px;
     border-radius: 5px;
@@ -193,21 +196,39 @@ li {
     align-items: center;
 }
 
-.image-upload-success {
-    margin-bottom: 10px;
-}
-
-.single-image-content > li {
-    margin: 15px;
-}
-
-.button-container {
+#login-form {
+    border: 3px solid #ED5A5A;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 20px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
 }
-/*Main button class
-==========================*/
+
+#sign-up-form {
+    border: 3px solid #3F8ABF;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 20px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 25%;
+}
+
+/* buttons */
+
 .ph-button {
 	
     border-style: solid;
@@ -246,13 +267,21 @@ li {
     font-size: 12px;
 }
 
-.loginInfo {
-    color: blue;
+.exit-button {
+    margin: 5px;
+    padding: 5px;
+    border: 0;
+    background: transparent;
+    position: fixed;
+    top: 0;
+    right: 0;
 }
 
-nav {
-    width: 80%;
+.exit-button:hover {
+    cursor: pointer;
+    border: 1px dashed darkgray;
 }
+
 .login-sign-up-button, .post-button {
     padding: 15px;
     font-size: 14px;
@@ -263,75 +292,7 @@ nav {
     padding: 5px 20px 5px 20px;
     font-size: 14px;
 }
-.delete-prompt-box {
-    border: 3px solid #ED5A5A;
-    background-color: #C6CCD2;
-    opacity: 0.95;
-    padding: 5px;
-    border-radius: 5px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
 
-#login-form {
-    border: 3px solid #ED5A5A;
-    background-color: #C6CCD2;
-    opacity: 0.95;
-    padding: 20px;
-    border-radius: 5px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-}
-
-#sign-up-form {
-    border: 3px solid #3F8ABF;
-    background-color: #C6CCD2;
-    opacity: 0.95;
-    padding: 20px;
-    border-radius: 5px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    min-width: 25%;
-}
-
-.error-message {
-    border: 3px solid #ED5A5A;
-    background-color: #C6CCD2;
-    opacity: 0.95;
-    padding: 5px;
-    border-radius: 5px;
-    position: fixed;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.success-sign-up-window {
-    border: 3px solid #3F8ABF;
-    background-color: #C6CCD2;
-    opacity: 0.95;
-    padding: 20px;
-    border-radius: 5px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
 /*Green
 ==========================*/
 .ph-btn-green {
@@ -383,19 +344,79 @@ nav {
     border-color: #E83131 !important;    
 }
 
-.menu-bar {
-    display: flex;
-    flex-direction: column;
+.image-upload-success {
+    margin-bottom: 10px;
 }
 
+/* feedback - messages  */
+
+
+.error-message {
+    border: 3px solid #ED5A5A;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 5px;
+    border-radius: 5px;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.success-sign-up-window {
+    border: 3px solid #3F8ABF;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 20px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.delete-prompt-box {
+    border: 3px solid #ED5A5A;
+    background-color: #C6CCD2;
+    opacity: 0.95;
+    padding: 5px;
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+
+/* <----- mobile & responsive css -----> */
+
+/*  Smaller Screens */
+
+@media only screen and (max-width: 1200px) {
+
+    .img-content {
+        font-size: 12px;
+    }
+}
+
+/* main mobile */
 @media only screen and (max-width: 600px), screen and (max-height: 820px) {
+    
+    nav {
+        flex-direction: column;
+    }
 
     .logo {
         width: 75%;
     }
+
     .photo-container {
         width: 80%;
     }
+
     .row {
         flex-direction: column; 
         height: 100%;
@@ -406,29 +427,29 @@ nav {
         margin-top: 10px;
         margin-bottom: 10px;
     }
-  .photo-box-screen {
+
+    .photo-box-screen {
       top: 10vh;
-  }
-  .custom-file-container__image-preview {
-    width: 0px;
-    height: 0px;
-    }
-    #create-photo-post-form {
-        width: 65%;
-        font-size: 14px;
-    }
-    .form-container {
-        top: 10vh;
     }
 
-    #update-form {
-        width: 65%;
-        font-size: 14px;
+    .form-container {
+    top: 10vh;
     }
 
     .single-image-content > li {
         margin: 5px;
     }
+
+    #create-photo-post-form {
+        width: 65%;
+        font-size: 14px;
+    }
+    
+    #update-form {
+        width: 65%;
+        font-size: 14px;
+    }
+
     .post-button {
         margin: 10px;
         padding: 5px;
@@ -439,16 +460,12 @@ nav {
         max-width: 50%;
     }
 
-    nav {
-        flex-direction: column;
+    .indv-pic {
+        width: 75%;
     }
 }
 
-@media only screen and (max-width: 1200px) {
-    .img-content {
-        font-size: 12px;
-    }
-}
+/* landscape mobile */
 @media only screen and (max-height: 450px) {
 
     .logo {
@@ -471,34 +488,36 @@ nav {
         margin-bottom: 10px;
     }
 
-  .photo-box-screen {
+    .photo-box-screen {
       padding: 10px;
       flex-direction: row;
       top: 5vh;
       align-items: center;
       flex-wrap: wrap;
-  }
+    }
 
-  .single-image-content {
+    .single-image-content {
       margin-left: 30px;
-  }
+    }
+
+    .form-container {
+        padding: 10px;
+        flex-direction: row;
+        top: 5vh;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .button-container {
+          flex-direction: column;
+      }
   
-  #create-photo-post-form {
+    #create-photo-post-form {
       width: 40%;
-  }
-  .form-container {
-    padding: 10px;
-    flex-direction: row;
-    top: 5vh;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .button-container {
-      flex-direction: column;
-  }
+    }
 
 }
 
+/* small mobile */
 @media only screen and (max-height: 350px) {
 
     .delete-button, .edit-button {
@@ -524,3 +543,4 @@ nav {
         font-size: 11px;
     }
 }
+

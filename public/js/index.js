@@ -64,7 +64,7 @@ function signUpRequest(userInfo, callback) {
     contentType: 'application/json',
     data: JSON.stringify(userInfo),
     success: callback,
-    error: displaySignUpError(),
+    error: displaySignUpError,
   };
   $.ajax(queryData);
 }
@@ -77,7 +77,7 @@ function loginRequest(userInfo, callback) {
     contentType: 'application/json',
     data: JSON.stringify(userInfo),
     success: callback,
-    error: displayLoginError(),
+    error: displayLoginError,
   };
   $.ajax(queryData);
 }
@@ -89,7 +89,7 @@ function getPictures(callback) {
     dataType: 'json',
     contentType: 'application/json',
     success: callback,
-    error: displayGeneralError(),
+    error: displayGeneralError,
   };
   $.ajax(queryData);
 }
@@ -101,7 +101,7 @@ function getOnePicture(id, callback) {
     dataType: 'json',
     contentType: 'application/json',
     success: callback,
-    error: displayGeneralError(),
+    error: displayGeneralError,
   };
   $.ajax(queryData);
 }
@@ -116,7 +116,7 @@ function deletePicture(callback) {
       xhr.setRequestHeader('Authorization', `Bearer ${STATE.authChecker}`);
     },
     success: callback,
-    error: displayDeleteError(),
+    error: displayDeleteError,
   };
   $.ajax(queryData);
 }
@@ -131,7 +131,7 @@ function createPicture(postData, callback) {
     },
     data: JSON.stringify(postData),
     success: callback,
-    error: displayGeneralError(),
+    error: displayGeneralError,
   };
   $.ajax(queryData);
 }
@@ -147,7 +147,7 @@ function updateContent(updateData, callback) {
     },
     data: JSON.stringify(updateData),
     success: callback,
-    error: displayUpdateError(),
+    error: displayUpdateError,
   };
   $.ajax(queryData);
 }
@@ -283,7 +283,7 @@ function renderUserHome() {
   if (STATE.authChecker) {
     return `
       <div class="menu-bar">
-      <span class="loginInfo">Logged in as ${localStorage.username}</span>
+      <span class="login-info">Logged in as ${localStorage.username}</span>
         <button type="button" class="ph-btn-grey ph-button log-out-button">Log Out</button>
       </div>
       <button type="button" class="ph-button ph-btn-blue post-button">Post</button>
@@ -387,14 +387,14 @@ function displayUserHome() {
 }
 
 function displayPictures(data) {
-  const pictureBoxes = data.photoPosts.map(item => renderPictures(item)).join('');
+  const pictureBoxes = data.photoPosts.reverse().map(item => renderPictures(item)).join('');
   $('.row').html(pictureBoxes);
 }
 
 function displayPicture(data) {
   mobileViewportChecker();
   if (STATE.viewport === 'mobile') {
-    console.log('it reaches here')
+    console.log('it reaches here');
     const mobilePictureBox = renderMobilePicture(data);
     $('.photo-box-screen-overlay').html(mobilePictureBox).fadeIn(500);
   }
@@ -422,6 +422,7 @@ function displaySignUpForm() {
 }
 
 function displayLoginSuccess() {
+  getAndDisplayPictures();
   const successBox = renderLogInSuccessBox();
   $('.photo-box-screen-overlay').html(successBox).fadeIn(500).fadeOut(4000);
 }

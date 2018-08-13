@@ -61,7 +61,7 @@
 //           firstName,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -82,7 +82,7 @@
 //           firstName,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -105,7 +105,7 @@
 //           firstName,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -128,7 +128,7 @@
 //           firstName: 1234,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -151,7 +151,7 @@
 //           firstName,
 //           lastName: 1234,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -174,7 +174,7 @@
 //           firstName,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -197,7 +197,7 @@
 //           firstName,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -220,7 +220,7 @@
 //           firstName,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;
@@ -243,7 +243,7 @@
 //           firstName,
 //           lastName,
 //         })
-//         .then(() => expect.fail(null, null, 'Request should not succeed') )
+//         .then(() => expect.fail(null, null, 'Request should not succeed'))
 //         .catch((err) => {
 //           if (err instanceof chai.AssertionError) {
 //             throw err;

@@ -61,7 +61,7 @@ router.post('/post', jwtAuth, (req, res) => {
   const day = today.getDate();
   const month = today.getMonth();
   const year = today.getFullYear();
-  const date = `${month}/${day}/${year}`;
+  const date = `${month + 1}/${day}/${year}`;
   photoPost.create({
     title: req.body.title,
     smallPicture: req.body.smallPicture,
