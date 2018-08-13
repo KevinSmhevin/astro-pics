@@ -28,7 +28,7 @@ function generatePhotoPostData() {
   const day = today.getDate();
   const month = today.getMonth();
   const year = today.getFullYear();
-  const date = `${month}/${day}/${year}`;
+  const date = `${month + 1}/${day}/${year}`;
   return {
     title: faker.name.title(),
     smallPicture: faker.image.nightlife(),
