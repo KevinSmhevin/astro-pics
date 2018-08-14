@@ -272,7 +272,7 @@ function renderSignUpForm() {
   <input type="text" name="firstName" required/>
   <label for="lastName">Last Name</label>
   <input type="text" name="lastName" required/>
-  <button type="submit" form="sign-up-form" class="ph-btn-blue ph-button sign-up-button">Sign Up</button>
+  <button type="submit" form="sign-up-form" class="ph-btn-blue ph-button sign-up-button" value="submit">Sign Up</button>
   </form>
   <div>
   `;
@@ -304,7 +304,7 @@ function renderPostForm() {
       <div class="image-upload-success"></div>
       <label for="title">Title</label>
       <input class="photo-form-field" type="text" name="title"/>
-      <label for="description">description</label>
+      <label for="description">Description</label>
       <input class="photo-form-field" type="text" name="description"/>
       <label for="author" hidden>Photographer</label>
       <input class="photo-form-field" type="text" name="author"/ value=${STATE.username} hidden>
@@ -427,7 +427,7 @@ function displayLoginSuccess() {
   $('.photo-box-screen-overlay').html(successBox).fadeIn(500).fadeOut(4000);
 }
 
-function displaySuccessSignUpBox() {
+function displaySignUpSuccess() {
   getAndDisplayPictures();
   const successBox = renderSignUpSuccessBox();
   $('.photo-box-screen-overlay').html(successBox).fadeIn(500).fadeOut(4000);
@@ -471,10 +471,27 @@ function loginSuccessful(data) {
 
 // Event Listeners
 
-function watchPostButton() {
-  $('nav').on('click', '.post-button', (event) => {
+function watchSignUpSubmit() {
+  $('.photo-box-screen-overlay').on('submit', '#sign-up-form', (event) => {
     event.preventDefault();
-    displayPostForm();
+    const userInfo = {};
+    $(event.currentTarget).serializeArray().forEach((attr) => {
+      userInfo[attr.name] = attr.value;
+    });
+    signUpRequest(userInfo, displaySignUpSuccess);
+  });
+}
+
+function watchSignUpButton() {
+  $('.photo-box-screen-overlay').on('click', '.sign-up-button', (event) => {
+    event.preventDefault();
+    displaySignUpForm();
+  });
+}
+function watchLoginButton() {
+  $('nav').on('click', '.login-sign-up-button', (event) => {
+    event.preventDefault();
+    displayLoginWindow();
   });
 }
 
@@ -489,13 +506,19 @@ function watchLoginSubmit() {
   });
 }
 
-
 function watchLogOutButton() {
   $('nav').on('click', '.log-out-button', (event) => {
     event.preventDefault();
     localStorage.removeItem('authToken');
     localStorage.removeItem('username');
     getAndDisplayPictures();
+  });
+}
+
+function watchPostButton() {
+  $('nav').on('click', '.post-button', (event) => {
+    event.preventDefault();
+    displayPostForm();
   });
 }
 
@@ -549,30 +572,6 @@ function watchPostFormSubmit() {
     });
     createPicture(postData, getAndDisplayPictures);
     $('.photo-box-screen-overlay').empty().fadeOut(500);
-  });
-}
-
-function watchSignUpSubmit() {
-  $('.photo-box-screen-overlay').on('submit', '#sign-up-form', (event) => {
-    event.preventDefault();
-    const userInfo = {};
-    $(event.currentTarget).serializeArray().forEach((attr) => {
-      userInfo[attr.name] = attr.value;
-    });
-    signUpRequest(userInfo, displaySuccessSignUpBox);
-  });
-}
-
-function watchSignUpButton() {
-  $('.photo-box-screen-overlay').on('click', '.sign-up-button', (event) => {
-    event.preventDefault();
-    displaySignUpForm();
-  });
-}
-function watchLoginButton() {
-  $('nav').on('click', '.login-sign-up-button', (event) => {
-    event.preventDefault();
-    displayLoginWindow();
   });
 }
 

@@ -21,7 +21,7 @@ router.post('/register', (req, res) => {
       location: missingField,
     });
   }
-  const stringFields = ['username', 'password', 'firstName', 'lastName'];
+  const stringFields = ['username', 'password', 'firstName', 'lastName', 'email'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string',
   );
@@ -97,6 +97,7 @@ router.post('/register', (req, res) => {
       password: hash,
       firstName,
       lastName,
+      email,
     }))
     .then(user => res.status(201).json(user.serialize()))
     .catch((err) => {
