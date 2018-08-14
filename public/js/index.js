@@ -64,7 +64,7 @@ function signUpRequest(userInfo, callback) {
     contentType: 'application/json',
     data: JSON.stringify(userInfo),
     success: callback,
-    error: displaySignUpError,
+    error: displayGeneralError,
   };
   $.ajax(queryData);
 }

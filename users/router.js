@@ -28,7 +28,7 @@ router.post('/register', (req, res) => {
   if (nonStringField) {
     return res.status(422).json({
       code: 422,
-      reason: 'ValidationError',
+      reason: 'Validation Error',
       message: 'Incorrect field type: expected string',
       location: nonStringField,
     });
@@ -40,7 +40,7 @@ router.post('/register', (req, res) => {
   if (nonTrimmedField) {
     return res.status(422).json({
       code: 422,
-      reason: 'ValidationError',
+      reason: 'Validation Error',
       message: 'Cannot start or end with whitespace',
       location: nonTrimmedField,
     });
@@ -65,7 +65,7 @@ router.post('/register', (req, res) => {
   if (tooSmallField || tooLargeField) {
     return res.status(422).json({
       code: 422,
-      reason: 'ValidationError',
+      reason: 'Validation Error',
       message: tooSmallField
         ? `Must be at least ${sizedFields[tooSmallField]
           .min} characters long`
@@ -84,7 +84,7 @@ router.post('/register', (req, res) => {
         console.log('Username is taken');
         return Promise.reject({
           code: 422,
-          reason: 'ValidationError',
+          reason: 'Validation Error',
           message: 'Username already taken',
           location: 'username',
         });
@@ -102,7 +102,7 @@ router.post('/register', (req, res) => {
     .catch((err) => {
       // Forward validation errors on to the client, otherwise give a 500
       // error because something unexpected has happened
-      if (err.reason === 'ValidationError') {
+      if (err.reason === 'Validation Error') {
         return res.status(err.code).json(err);
       }
       res.status(500).json({ code: 500, message: 'Internal server error' });
