@@ -252,7 +252,7 @@ describe('/api/user', () => {
             'username',
             'firstName',
             'lastName',
-            'email'
+            'email',
           );
           expect(res.body.username).to.equal(username);
           expect(res.body.firstName).to.equal(firstName);

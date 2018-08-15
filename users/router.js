@@ -74,7 +74,7 @@ router.post('/register', (req, res) => {
       location: tooSmallField || tooLargeField,
     });
   }
-  let { username, password, firstName = '', lastName = '' } = req.body;
+  let { username, password, email, firstName = '', lastName = '' } = req.body;
   firstName = firstName.trim();
   lastName = lastName.trim();
   return User.find({ username })
@@ -106,7 +106,7 @@ router.post('/register', (req, res) => {
       if (err.reason === 'Validation Error') {
         return res.status(err.code).json(err);
       }
-      res.status(500).json({ code: 500, message: 'Internal server error' });
+      res.status(500).json({ code: 500, message: 'internal server error' });
     });
 });
 

@@ -1,5 +1,4 @@
 // Object for storing global variables
-
 const STATE = {
   viewportHeight: 0,
   viewportWidth: 0,
@@ -7,10 +6,10 @@ const STATE = {
   viewport: '',
   errorLogin: '<div class="error-message">Incorrect Username or Password</div>',
   errorDelete: '<div class="error-message">This Post does not belong to you</div>',
-  errorUpdate: '<div class="error-message">This Post does not belong to you</div>',
   errorGeneral: '<div class="error-message">Something went wrong</div>',
   smallPicture: '',
   largePicture: '',
+  tabIndex: 0,
 };
 
 // Global declaration for Cloudinary image uploader
@@ -30,7 +29,6 @@ function checkAuthToken() {
 function mobileViewportChecker() {
   STATE.viewportWidth = $(window).width();
   STATE.viewportHeight = $(window).height();
-  console.log(`Width:${STATE.viewportWidth} <------> Height:${STATE.viewportHeight}`);
   if ((STATE.viewportWidth < 600 && STATE.viewportHeight < 820) || STATE.viewportHeight < 451) {
     STATE.viewport = 'mobile';
   }
@@ -39,12 +37,20 @@ function mobileViewportChecker() {
 
 // display error functions
 
+function displaySignUpError(err) {
+  $('.photo-box-screen-overlay').append(`<div class="error-message">error: ${err} </div>`);
+}
+
 function displayLoginError() {
   $('.photo-box-screen-overlay').append(STATE.errorLogin);
 }
 
 function displayGeneralError() {
   $('.photo-box-screen-overlay').append(STATE.errorGeneral);
+}
+
+function displayCreatePictureError(err) {
+  $('.photo-box-screen-overlay').append(`<div class="error-message">error: ${err} </div>`);
 }
 
 function displayDeleteError() {
@@ -64,7 +70,9 @@ function signUpRequest(userInfo, callback) {
     contentType: 'application/json',
     data: JSON.stringify(userInfo),
     success: callback,
-    error: displayGeneralError,
+    error(request, status, error) {
+      displaySignUpError(request.responseJSON.message);
+    },
   };
   $.ajax(queryData);
 }
@@ -131,7 +139,9 @@ function createPicture(postData, callback) {
     },
     data: JSON.stringify(postData),
     success: callback,
-    error: displayGeneralError,
+    error(request, status, error) {
+      displayCreatePictureError(request.responseJSON.message);
+    },
   };
   $.ajax(queryData);
 }
@@ -157,7 +167,7 @@ function updateContent(updateData, callback) {
 function renderPictures(entry) {
   return ` 
         <div class="box">
-        <article role="article" class="image-box" tabindex="0">
+        <article role="article" class="image-box" tabindex="${STATE.tabIndex}">
           <img class="gal-pic" alt="${entry.title}" src ="${entry.smallPicture}">
                         <ul class="img-content">
                            <li><h4 class="img-title">${entry.title}</h4></li>
@@ -260,21 +270,21 @@ function renderSignUpForm() {
   return `
   <button type="button" class="exit-button"><img src="pics/exit-button.png" alt="exit"></button>
   <div class="sign-up-window">
-  <form id="sign-up-form" action="#">
-  <h4>Sign Up Form</h4><br>
-  <label for="email">Email</label>
-  <input type="email" name="email" required/>
-  <label for="username">Username</label>
-  <input type="text" name="username" required/>
-  <label for="password">Password</label>
-  <input type="password" name="password" required/>
-  <label for="firstName">First Name</label>
-  <input type="text" name="firstName" required/>
-  <label for="lastName">Last Name</label>
-  <input type="text" name="lastName" required/>
-  <button type="submit" form="sign-up-form" class="ph-btn-blue ph-button sign-up-button" value="submit">Sign Up</button>
-  </form>
-  <div>
+    <form id="sign-up-form">
+      <h4>Sign Up Form</h4><br>
+      <label for="email">Email</label>
+      <input type="email" name="email" required/>
+      <label for="username">Username</label>
+      <input type="text" name="username" required/>
+     <label for="password">Password</label>
+      <input type="password" name="password" required/>
+      <label for="firstName">First Name</label>
+      <input type="text" name="firstName" required/>
+      <label for="lastName">Last Name</label>
+      <input type="text" name="lastName" required/>
+      <button type="submit" form="sign-up-form" class="ph-btn-blue ph-button sign-up-submit" value="submit">Sign Up</button>
+      </form>
+  </div>
   `;
 }
 
@@ -291,7 +301,7 @@ function renderUserHome() {
       `;
   }
   return `
-      <button type="button" class="ph-btn-grey ph-button login-sign-up-button nav-button">Login/Sign Up</button>
+      <button type="button" class="ph-btn-grey ph-button login-sign-up-button">Login/Sign Up</button>
       `;
 }
 
@@ -387,11 +397,13 @@ function displayUserHome() {
 }
 
 function displayPictures(data) {
+  STATE.tabIndex === 0;
   const pictureBoxes = data.photoPosts.reverse().map(item => renderPictures(item)).join('');
   $('.row').html(pictureBoxes);
 }
 
 function displayPicture(data) {
+  STATE.tabIndex === -1;
   mobileViewportChecker();
   if (STATE.viewport === 'mobile') {
     console.log('it reaches here');
@@ -412,11 +424,13 @@ function getAndDisplayPictures() {
 }
 
 function displayLoginWindow() {
+  STATE.tabIndex === -1;
   const loginWindow = renderLoginWindow();
   $('.photo-box-screen-overlay').html(loginWindow).fadeIn(500);
 }
 
 function displaySignUpForm() {
+  STATE.tabIndex === -1;
   const signUpForm = renderSignUpForm();
   $('.photo-box-screen-overlay').html(signUpForm).fadeIn(500);
 }
@@ -434,12 +448,14 @@ function displaySignUpSuccess() {
 }
 
 function displayPostForm() {
+  STATE.tabIndex === -1;
   getUsername();
   const formPost = renderPostForm();
   $('.photo-box-screen-overlay').html(formPost).fadeIn(500);
 }
 
 function displayUpdateForm(data) {
+  STATE.tabIndex === -1;
   mobileViewportChecker();
   if (STATE.viewport === 'mobile') {
     $('.photo-box-screen-overlay').empty();
@@ -531,6 +547,16 @@ function watchPictureBoxes() {
   });
 }
 
+function watchKeyPressPictureBoxes() {
+  $('.photo-container').on('keypress', '.image-box', (event) => {
+    const $focused = $(':focus');
+    event.preventDefault();
+    STATE.id = $($focused).find('.photoId').text();
+    STATE.originalArtist = $($focused).find('.author').text();
+    getAndDisplayPicture(STATE.id);
+  });
+}
+
 function watchYesDeleteButton() {
   $('.photo-box-screen-overlay').on('click', '.yes-delete-button', (event) => {
     event.preventDefault();
@@ -576,6 +602,7 @@ function watchPostFormSubmit() {
 }
 
 function watchExitButton() {
+  STATE.tabIndex === 0;
   $('.photo-box-screen-overlay').on('click', '.exit-button', (event) => {
     event.preventDefault();
     $('.photo-box-screen-overlay').empty().fadeOut(500);
@@ -612,6 +639,7 @@ function watchDeleteButton() {
 function loadPage() {
   getAndDisplayPictures();
   watchPictureBoxes();
+  watchKeyPressPictureBoxes();
   watchUploadWidget();
   watchPostButton();
   watchPostFormSubmit();
