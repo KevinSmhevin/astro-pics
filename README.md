@@ -5,6 +5,10 @@ https://pacific-fjord-73675.herokuapp.com/
 
 A simple node, express and mongo app where you can share and post your space-related photos! 
 
+Sample Login Info:
+Username: testpenguin5
+password: testpenguin5
+
 Features: 
 -----------------
 view Readme-Pictures folder to see corresponding pictures
