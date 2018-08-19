@@ -28,6 +28,10 @@ nav {
     margin-bottom: 10px;
 }
 
+header {
+    margin-top: 20px;
+}
+
 h1 {
     text-align: center;
 }
@@ -127,6 +131,7 @@ li {
 .box:hover {
     border: 1px solid;
     border-color: #326E99;
+    cursor: pointer;
 }
 
 .form-container {
@@ -247,6 +252,10 @@ li {
     white-space: nowrap;	
     font-family: "Gotham Rounded A","Gotham Rounded B",Helvetica,Arial,sans-serif;
     font-weight: 600;	
+}
+
+.ph-button:hover {
+    cursor: pointer;
 }
 
 .form-button {
