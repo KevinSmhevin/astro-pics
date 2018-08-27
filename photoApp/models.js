@@ -9,6 +9,7 @@ const photoPostSchema = mongoose.Schema({
   author: { type: String, required: true },
   description: { type: String, required: false },
   date: { type: String, required: false },
+  created: { type: Date, required: true, default: Date.now()},
 });
 
 photoPostSchema.methods.serialize = function () {

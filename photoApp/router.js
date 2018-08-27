@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 
 router.get('/all', (req, res) => {
   photoPost
-    .find()
+    .find({}, [], { sort: { created: 1 } })
     .then((photoPosts) => {
       res.json({
         photoPosts: photoPosts.map(photopost => photopost.serialize()),
