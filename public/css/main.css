@@ -412,7 +412,7 @@ li {
 }
 
 /* main mobile */
-@media only screen and (max-width: 600px), screen and (max-height: 800px) {
+@media only screen and (max-width: 570px), screen and (max-height: 720px) {
     
     nav {
         flex-direction: column;
