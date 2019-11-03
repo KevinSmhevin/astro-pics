@@ -609,6 +609,13 @@ function watchExitButton() {
   });
 }
 
+function watchModalExitScreen() {
+  STATE.tabIndex === 0;
+  $('.photo-box-screen-overlay').click(() => {
+    $('.photo-box-screen-overlay').empty().fadeOut(500);
+  });
+}
+
 function watchUpdateButton() {
   $('.photo-box-screen-overlay').on('click', '.edit-button', (event) => {
     event.preventDefault();
@@ -653,6 +660,7 @@ function loadPage() {
   watchUpdateButton();
   watchLoginButton();
   watchLogOutButton();
+  watchModalExitScreen();
   watchExitButton();
 }
 
