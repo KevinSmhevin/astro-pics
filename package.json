@@ -43,6 +43,6 @@
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-mocha": "^5.1.0",
     "faker": "^4.1.0",
-    "mocha": "^5.2.0"
+    "mocha": "^8.4.0"
   }
 }
