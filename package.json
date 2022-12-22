@@ -24,7 +24,7 @@
     "express": "^4.16.3",
     "file-upload-with-preview": "^2.1.1",
     "jquery": "^3.3.1",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^9.0.0",
     "materialize-css": "^1.0.0-rc.2",
     "mongoose": "^5.2.5",
     "morgan": "^1.9.0",
